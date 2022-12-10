@@ -55,5 +55,12 @@ class Producto {
         $consulta->execute();
         return $consulta->rowCount();
     }
+ 
+    public static function obtenerProductosPorEstadoPerfil($estado, $sector) {
+
+
+
+
+    }
 
 }

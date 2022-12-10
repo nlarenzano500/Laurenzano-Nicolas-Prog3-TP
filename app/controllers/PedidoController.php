@@ -3,6 +3,7 @@ require_once './models/Pedido.php';
 require_once './models/Producto.php';
 require_once './models/ProductoPedido.php';
 require_once './interfaces/IApiUsable.php';
+require_once './models/AutentificadorJWT.php';
 
 class PedidoController implements IApiUsable {
 
@@ -189,8 +190,45 @@ class PedidoController implements IApiUsable {
           ->withHeader('Content-Type', 'application/json');
     }
     
+    // Trae todos los pedidos en estado pendiente
+    // Cada empleado verá los pedidos que contengan productos de su sector
+    public function TraerPorEstado($request, $response, $args) {
+
+        // Obtenemos el estado buscado
+        $estado = $args['estado'];
+
+        // Obtenemos el usuario a partir de los datos del token
+        $token = AutentificadorJWT::ObtenerToken($request);
+        $payload=AutentificadorJWT::ObtenerData($token);
+        $usuario = Usuario::obtenerUsuario($payload->usuario);
+
+        $nrosPedido = ProductoPedido::obtenerNrosPedidoPorSector($usuario->sector);
+var_dump($nrosPedido);
+
+
+
+        // $pedidos = Pedido::obtenerProductosPorEstadoSector($estado, $usuario->sector);
+
+        foreach ($lista as $pedido) {
+            $productosPedido = ProductoPedido::obtenerProductosPorPedido($pedido->codigo);
+            $pedido->productos = $productosPedido;
+        }
+
+        $payload = json_encode($lista);
+
+        $response->getBody()->write($payload);
+        return $response
+          ->withHeader('Content-Type', 'application/json');
+
+
+
+    }
+
+
+
 
     public function TraerTiempo($request, $response, $args) {
 
     }
+
 }

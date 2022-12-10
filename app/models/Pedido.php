@@ -76,6 +76,31 @@ class Pedido {
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
     }
 
+    // public static function obtenerPedidosPorEstado($estado, $perfil) {
+    //     $objAccesoDatos = AccesoDatos::obtenerInstancia();
+
+    //     if ($perfil == "admin" || $perfil == "socio" || $perfil == "mozo") {
+    //         // Pueden ver todos los pedidos
+    //         $consulta = $objAccesoDatos->prepararConsulta("SELECT codigo, id_mesa, importe, estado, cliente, foto, tiempo_estimado, tiempo_excedido, creado FROM pedidos WHERE estado = :estado");
+
+    //     } else {
+    //         // Solo pueden ver pedidos que contienen productos de su sector
+
+
+    //         $consulta = $objAccesoDatos->prepararConsulta("SELECT codigo, id_mesa, importe, estado, cliente, foto, tiempo_estimado, tiempo_excedido, creado FROM pedidos WHERE estado = :estado");
+
+
+
+    //     }
+
+
+
+
+    //     $consulta->execute();
+
+    //     return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
+    // }
+
     public static function obtenerPedido($codigo) {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("SELECT codigo, id_mesa, importe, estado, cliente, foto, tiempo_estimado, tiempo_excedido, creado FROM pedidos WHERE codigo = :codigo");

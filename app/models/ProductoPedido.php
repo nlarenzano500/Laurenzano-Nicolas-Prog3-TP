@@ -36,4 +36,21 @@ class ProductoPedido {
         $consulta->bindValue(':id_pedido', $id_pedido, PDO::PARAM_STR);
         $consulta->execute();
     }
+
+    public static function obtenerNrosPedidoPorSector($sector) {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+
+        $query = "SELECT DISTINCT pp.id_pedido FROM productos_pedidos pp INNER JOIN productos_stock ps ON pp.id_producto = ps.id";
+
+        // Solo se agrega la condición si el sector fue especificado
+        if ($sector != null)
+            $query .= " WHERE ps.sector = :sector";
+
+        $consulta = $objAccesoDatos->prepararConsulta($query);
+        if ($sector != null)
+            $consulta->bindValue(':sector', $sector, PDO::PARAM_STR);
+    
+        $consulta->execute();
+        return $consulta->fetchAll(PDO::FETCH_COLUMN, 0);
+    }
 }

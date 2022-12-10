@@ -86,6 +86,8 @@ $app->group('/mesas', function (RouteCollectorProxy $group) {
 // $app->get('/pedidos/tiempoRestante', \PedidoController::class . ':TraerTiempo')->add(\MWparaAutentificar::class . ':VerificarUsuario_4')->add(\MWparaCORS::class . ':HabilitarCORS80');
 
 $app->group('/pedidos', function (RouteCollectorProxy $group) {
+    $group->get('/estado/{estado}', \PedidoController::class . ':TraerPorEstado');
+
     $group->get('[/]', \PedidoController::class . ':TraerTodos');
     $group->get('/{codigo}', \PedidoController::class . ':TraerUno');
     $group->post('/foto', \PedidoController::class . ':AgregarFoto');

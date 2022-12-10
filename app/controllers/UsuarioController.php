@@ -22,6 +22,7 @@ class UsuarioController implements IApiUsable {
         $clave = $parametros['clave'];
         $perfil = $parametros['perfil'];
         $nombre = $parametros['nombre'];
+        $sector = $parametros['sector'];
 
         // Creamos el usuario
         $usr = new Usuario();
@@ -29,6 +30,7 @@ class UsuarioController implements IApiUsable {
         $usr->clave = $clave;
         $usr->perfil = $perfil;
         $usr->nombre = $nombre;
+        $usr->sector = $usr->setSector($sector);
         $usr->crearUsuario();
 
         $payload = json_encode(array("mensaje" => "Usuario creado con éxito"));
@@ -67,6 +69,7 @@ class UsuarioController implements IApiUsable {
         $clave = $parametros['clave'];
         $perfil = $parametros['perfil'];
         $nombre = $parametros['nombre'];
+        $sector = $parametros['sector'];
         $fecha_baja = $parametros['fecha_baja'];
 
         // Creamos el usuario
@@ -75,6 +78,7 @@ class UsuarioController implements IApiUsable {
         $usr->clave = $clave;
         $usr->perfil = $perfil;
         $usr->nombre = $nombre;
+        $usr->sector = $usr->setSector($sector);
         $usr->fecha_baja = $fecha_baja;
 
         if ($usr->modificarUsuario($idUsuario)) {
