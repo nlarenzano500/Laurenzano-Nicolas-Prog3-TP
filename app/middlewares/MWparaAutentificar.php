@@ -37,7 +37,6 @@ class MWparaAutentificar {
 				// "GET" solo sirve para socios y admin
 				if($payload->perfil=="socio" || $payload->perfil=="admin") {
 					$response = $handler->handle($request);
-					$response->withStatus(200);
 
 				} else {
 					$objDelaRespuesta->respuesta="Solo socios y administradores.";
@@ -47,7 +46,6 @@ class MWparaAutentificar {
 				// "POST", "PUT" y "DELETE" solo sirven para los admin
 				if($payload->perfil=="admin") {
 					$response = $handler->handle($request);
-					$response->withStatus(200);
 
 				} else {
 					$objDelaRespuesta->respuesta="Solo administradores.";
@@ -101,7 +99,6 @@ class MWparaAutentificar {
 				// "GET" y "PUT solo para mozos, socios y admin
 				if($payload->perfil=="mozo" || $payload->perfil=="socio" || $payload->perfil=="admin") {
 					$response = $handler->handle($request);
-					$response->withStatus(200);
 
 				} else {
 					$objDelaRespuesta->respuesta="Solo mozos, socios y administradores.";
@@ -111,7 +108,6 @@ class MWparaAutentificar {
 				// "POST" y "DELETE" solo para los admin
 				if($payload->perfil=="admin") {
 					$response = $handler->handle($request);
-					$response->withStatus(200);
 
 				} else {
 					$objDelaRespuesta->respuesta="Solo administradores.";
@@ -134,7 +130,7 @@ class MWparaAutentificar {
 	}
 
 	// Solo usuarios registrados
-	// "GET" y "PUT solo para usuarios registrados
+	// "GET" y "PUT" solo para usuarios registrados
 	// "POST" solo para mozos, socios y admin
 	// "DELETE" solo para admin
 	public function VerificarUsuario_3($request, $handler) {
@@ -165,13 +161,11 @@ class MWparaAutentificar {
 			if($method == "GET" || $method == "PUT") {
 				// "GET" y "PUT solo para usuarios registrados
 				$response = $handler->handle($request);
-				$response->withStatus(200);
 
 			} else if($method == "POST") {
 				// "POST" solo para mozos, socios y admin
 				if($payload->perfil=="mozo" || $payload->perfil=="socio" || $payload->perfil=="admin") {
 					$response = $handler->handle($request);
-					$response->withStatus(200);
 
 				} else {
 					$objDelaRespuesta->respuesta="Solo mozos, socios y administradores.";
@@ -181,7 +175,6 @@ class MWparaAutentificar {
 				// "DELETE" solo para admin
 				if($payload->perfil=="admin") {
 					$response = $handler->handle($request);
-					$response->withStatus(200);
 
 				} else {
 					$objDelaRespuesta->respuesta="Solo administradores.";

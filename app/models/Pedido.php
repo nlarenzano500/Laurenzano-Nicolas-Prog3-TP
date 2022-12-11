@@ -76,31 +76,6 @@ class Pedido {
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
     }
 
-    // public static function obtenerPedidosPorEstado($estado, $perfil) {
-    //     $objAccesoDatos = AccesoDatos::obtenerInstancia();
-
-    //     if ($perfil == "admin" || $perfil == "socio" || $perfil == "mozo") {
-    //         // Pueden ver todos los pedidos
-    //         $consulta = $objAccesoDatos->prepararConsulta("SELECT codigo, id_mesa, importe, estado, cliente, foto, tiempo_estimado, tiempo_excedido, creado FROM pedidos WHERE estado = :estado");
-
-    //     } else {
-    //         // Solo pueden ver pedidos que contienen productos de su sector
-
-
-    //         $consulta = $objAccesoDatos->prepararConsulta("SELECT codigo, id_mesa, importe, estado, cliente, foto, tiempo_estimado, tiempo_excedido, creado FROM pedidos WHERE estado = :estado");
-
-
-
-    //     }
-
-
-
-
-    //     $consulta->execute();
-
-    //     return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
-    // }
-
     public static function obtenerPedido($codigo) {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("SELECT codigo, id_mesa, importe, estado, cliente, foto, tiempo_estimado, tiempo_excedido, creado FROM pedidos WHERE codigo = :codigo");
@@ -134,5 +109,79 @@ class Pedido {
         $consulta->execute();
         return $consulta->rowCount();
     }
+
+    public static function obtenerPedidosPorEstadoYSector($estado, $sector) {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $query = "SELECT * FROM pedidos p WHERE p.estado = :estado";
+
+        // Solo se agrega la condición si el sector fue especificado
+        if ($sector != null)
+            $query .= " AND p.codigo in 
+                (SELECT DISTINCT pp.id_pedido FROM productos_pedidos pp 
+                INNER JOIN productos_stock ps ON pp.id_producto = ps.id 
+                WHERE ps.sector = :sector)";
+
+        $consulta = $objAccesoDatos->prepararConsulta($query);
+        $consulta->bindValue(':estado', $estado, PDO::PARAM_STR);
+
+        if ($sector != null)
+            $consulta->bindValue(':sector', $sector, PDO::PARAM_STR);
+    
+        $consulta->execute();
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
+    }
+
+    public function modificarEstado() {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+
+        if ($this->tiempo_estimado == null || $this->tiempo_estimado == 0) {
+            $consulta = $objAccesoDatos->prepararConsulta("UPDATE pedidos SET estado = :estado WHERE codigo = :codigo");
+
+        } else {
+            $consulta = $objAccesoDatos->prepararConsulta("UPDATE pedidos SET estado = :estado, tiempo_estimado = :tiempo_estimado WHERE codigo = :codigo");
+            $consulta->bindValue(':tiempo_estimado', $this->tiempo_estimado, PDO::PARAM_STR);
+        }
+
+        $consulta->bindValue(':codigo', $this->codigo, PDO::PARAM_STR);
+        $consulta->bindValue(':estado', $this->estado, PDO::PARAM_STR);
+        $consulta->execute();
+        return $consulta->rowCount();
+    }
+
+
+
+
+
+
+
+
+
+
+    // ************************************************************************************
+    // public static function obtenerPedidosPorEstado($estado, $perfil) {
+    //     $objAccesoDatos = AccesoDatos::obtenerInstancia();
+
+    //     if ($perfil == "admin" || $perfil == "socio" || $perfil == "mozo") {
+    //         // Pueden ver todos los pedidos
+    //         $consulta = $objAccesoDatos->prepararConsulta("SELECT codigo, id_mesa, importe, estado, cliente, foto, tiempo_estimado, tiempo_excedido, creado FROM pedidos WHERE estado = :estado");
+
+    //     } else {
+    //         // Solo pueden ver pedidos que contienen productos de su sector
+
+
+    //         $consulta = $objAccesoDatos->prepararConsulta("SELECT codigo, id_mesa, importe, estado, cliente, foto, tiempo_estimado, tiempo_excedido, creado FROM pedidos WHERE estado = :estado");
+
+
+
+    //     }
+
+
+
+
+    //     $consulta->execute();
+
+    //     return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
+    // }
+
 }
     

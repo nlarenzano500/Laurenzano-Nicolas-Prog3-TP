@@ -87,12 +87,16 @@ $app->group('/mesas', function (RouteCollectorProxy $group) {
 
 $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->get('/estado/{estado}', \PedidoController::class . ':TraerPorEstado');
-
     $group->get('[/]', \PedidoController::class . ':TraerTodos');
     $group->get('/{codigo}', \PedidoController::class . ':TraerUno');
     $group->post('/foto', \PedidoController::class . ':AgregarFoto');
     $group->post('[/]', \PedidoController::class . ':CargarUno');
+    
+    $group->put('/estado', \PedidoController::class . ':ModificarEstado');
+    $group->put('/tiempo/{tiempo}', \PedidoController::class . ':AgregarTiempo');
+
     $group->put('[/]', \PedidoController::class . ':ModificarUno');
+
     $group->delete('[/]', \PedidoController::class . ':BorrarUno');
   })->add(\MWparaAutentificar::class . ':VerificarUsuario_3')->add(\MWparaCORS::class . ':HabilitarCORS80');
 

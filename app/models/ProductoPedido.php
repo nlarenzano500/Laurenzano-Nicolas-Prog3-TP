@@ -37,6 +37,15 @@ class ProductoPedido {
         $consulta->execute();
     }
 
+    
+
+
+
+
+
+
+
+    // *******************************************************************
     public static function obtenerNrosPedidoPorSector($sector) {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
 

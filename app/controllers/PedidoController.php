@@ -108,7 +108,7 @@ class PedidoController implements IApiUsable {
         return $response
           ->withHeader('Content-Type', 'application/json');
     }
-    
+
     public function ModificarUno($request, $response, $args) {
 
         $parametros = $request->getParsedBody();
@@ -190,7 +190,7 @@ class PedidoController implements IApiUsable {
           ->withHeader('Content-Type', 'application/json');
     }
     
-    // Trae todos los pedidos en estado pendiente
+    // Trae todos los pedidos en el estado indicado por parámetro
     // Cada empleado verá los pedidos que contengan productos de su sector
     public function TraerPorEstado($request, $response, $args) {
 
@@ -202,27 +202,84 @@ class PedidoController implements IApiUsable {
         $payload=AutentificadorJWT::ObtenerData($token);
         $usuario = Usuario::obtenerUsuario($payload->usuario);
 
-        $nrosPedido = ProductoPedido::obtenerNrosPedidoPorSector($usuario->sector);
-var_dump($nrosPedido);
+        // Obtenemos los nros de pedido
+        // Filtrando por estado del pedido y sector de los productos que contiene
+        $pedidos = Pedido::obtenerPedidosPorEstadoYSector($estado, $usuario->sector);
 
-
-
-        // $pedidos = Pedido::obtenerProductosPorEstadoSector($estado, $usuario->sector);
-
-        foreach ($lista as $pedido) {
+        foreach ($pedidos as $pedido) {
             $productosPedido = ProductoPedido::obtenerProductosPorPedido($pedido->codigo);
             $pedido->productos = $productosPedido;
         }
 
-        $payload = json_encode($lista);
+        $payload = json_encode($pedidos);
 
         $response->getBody()->write($payload);
         return $response
           ->withHeader('Content-Type', 'application/json');
-
-
-
     }
+
+    public function ModificarEstado($request, $response, $args) {
+        $parametros = $request->getParsedBody();
+
+        $codigo = $parametros['codigo'];
+        $estado = $parametros['estado'];
+        $tiempo_estimado = ($estado == 2) ? $parametros['tiempo_estimado'] : null;
+
+        // Obtenemos el usuario a partir de los datos del token
+        $token = AutentificadorJWT::ObtenerToken($request);
+        $payload=AutentificadorJWT::ObtenerData($token);
+        $usuario = Usuario::obtenerUsuario($payload->usuario);
+
+        if ($usuario->perfil == "bartender" || $usuario->perfil == "cervecero" || $usuario->perfil == "cocinero") {
+            // Solo pueden cambiar a los estados:
+            //  2 - En preparación
+            //  3 - Listo para servir
+            if ($estado != 2 && $estado != 3) {
+                $payload = json_encode(array("mensaje" => "Solo puede cambiar un pedido a los estados 'En preparación' y 'Listo para servir'."));
+                $response->getBody()->write($payload);
+                $response->withStatus(401);
+                return $response
+                  ->withHeader('Content-Type', 'application/json');
+            }
+
+            if ($estado == 2 && ($tiempo_estimado == null || $tiempo_estimado == 0)) {
+                $payload = json_encode(array("mensaje" => "Al poner un pedido en estado 'En preparación', se necesita el tiempo estimado."));
+                $response->getBody()->write($payload);
+                $response->withStatus(401);
+                return $response
+                  ->withHeader('Content-Type', 'application/json');
+            }
+        } else if ($usuario->perfil == "mozo") {
+            // Solo pueden cambiar a los estados:
+            //  9 - Cancelado
+            if ($estado != 9) {
+                $payload = json_encode(array("mensaje" => "Solo puede cambiar un pedido al estado 'Cancelado'."));
+                $response->getBody()->write($payload);
+                $response->withStatus(401);
+                return $response
+                  ->withHeader('Content-Type', 'application/json');
+            }
+        }
+
+        // Creamos el pedido
+        $pedido = new Pedido();
+        $pedido->codigo = $codigo;
+        $pedido->estado = $estado;
+        $pedido->tiempo_estimado = $tiempo_estimado;
+
+        if ($pedido->modificarEstado()) {
+            $payload = json_encode(array("mensaje" => "Pedido modificado."));
+        } else {
+            $payload = json_encode(array("mensaje" => "El pedido no fue modificado."));
+        }
+
+        $response->getBody()->write($payload);
+        return $response
+          ->withHeader('Content-Type', 'application/json');
+    }
+
+
+
 
 
 
