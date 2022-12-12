@@ -93,7 +93,7 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->post('[/]', \PedidoController::class . ':CargarUno');
     
     $group->put('/estado', \PedidoController::class . ':ModificarEstado');
-    $group->put('/tiempo/{tiempo}', \PedidoController::class . ':AgregarTiempo');
+    $group->put('/tiempo', \PedidoController::class . ':AgregarTiempo');
 
     $group->put('[/]', \PedidoController::class . ':ModificarUno');
 

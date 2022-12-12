@@ -64,7 +64,7 @@ class MWparaAutentificar {
 			return $newResponse;
 		}
 		  
-		return $response;   
+		return $response;
 	}
 
 	// Solo usuarios registrados

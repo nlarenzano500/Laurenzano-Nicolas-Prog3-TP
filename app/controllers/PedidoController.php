@@ -62,7 +62,7 @@ class PedidoController implements IApiUsable {
         $parametros = $request->getParsedBody();
         $codigo = $parametros['codigo'];
 
-       // Buscamos pedido por código
+        // Buscamos pedido por código
         $pedido = Pedido::obtenerPedido($codigo);
 
          if ($pedido->agregarFoto()) {
@@ -277,6 +277,51 @@ class PedidoController implements IApiUsable {
         return $response
           ->withHeader('Content-Type', 'application/json');
     }
+
+    public function AgregarTiempo($request, $response, $args) {
+        $retorno = "";
+        $parametros = $request->getParsedBody();
+
+        $codigo = $parametros['codigo'];
+        $tiempo_estimado = $parametros['tiempo_estimado'];
+
+        // Obtenemos el usuario a partir de los datos del token
+        $token = AutentificadorJWT::ObtenerToken($request);
+        $payload=AutentificadorJWT::ObtenerData($token);
+        $usuario = Usuario::obtenerUsuario($payload->usuario);
+
+        if ($usuario->perfil == "mozo") {
+            // Este perfil es el único que no puede agregar tiempo a un pedido
+            $retorno = "No tiene permitido agregar tiempo a los pedidos.";
+        } else {
+            // Buscamos pedido por código
+            $pedido = Pedido::obtenerPedido($codigo);
+
+            if ($pedido->estado != 2) {
+                // Solo se puede agregar tiempo a un pedido en estado "En preparación"
+                $retorno = "Solo se puede agregar tiempo a un pedido en estado 'En preparación'.";
+            }
+        }
+
+        if($retorno != "") {
+            $payload = json_encode(array("mensaje" => $retorno));
+            $response->getBody()->write($payload);
+            $response->withStatus(401);
+            return $response->withHeader('Content-Type', 'application/json');;
+        }
+
+        // Se agrega el tiempo indicado al pedido
+        $pedido->tiempo_estimado += $tiempo_estimado;
+        if ($pedido->modificarTiempo()) {
+            $payload = json_encode(array("mensaje" => "Pedido modificado."));
+        } else {
+            $payload = json_encode(array("mensaje" => "El pedido no fue modificado."));
+        }
+
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
 
 
 

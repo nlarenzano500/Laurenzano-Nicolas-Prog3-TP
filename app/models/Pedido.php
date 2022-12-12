@@ -148,6 +148,16 @@ class Pedido {
         return $consulta->rowCount();
     }
 
+    public function modificarTiempo() {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+
+        $consulta = $objAccesoDatos->prepararConsulta("UPDATE pedidos SET tiempo_estimado = :tiempo_estimado WHERE codigo = :codigo");
+        $consulta->bindValue(':codigo', $this->codigo, PDO::PARAM_STR);
+        $consulta->bindValue(':tiempo_estimado', $this->tiempo_estimado, PDO::PARAM_STR);
+        $consulta->execute();
+        return $consulta->rowCount();
+    }
+
 
 
 
