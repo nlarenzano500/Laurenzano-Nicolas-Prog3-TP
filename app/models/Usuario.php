@@ -13,8 +13,11 @@ class Usuario {
         // Estos perfiles no pertenecen a un sector específico
         if ($this->perfil == "admin" || $this->perfil == "socio" || $this->perfil == "mozo")
             $this->sector = null;
+        
+        if ($this->perfil == "admin" || $this->perfil == "socio" || $this->perfil == "mozo")
+            $this->sector = null;
 
-        $this->sector = $sector;
+        $this->sector = ($sector == "") ? null : $sector;
     }
 
     public function crearUsuario() {
@@ -92,9 +95,20 @@ class Usuario {
         $consulta = $objAccesoDatos->prepararConsulta("DELETE FROM usuarios WHERE usuario != :usuario");
         $consulta->bindValue(':usuario', $usuario, PDO::PARAM_STR);
 
-
-
         $consulta->execute();
         return $consulta->rowCount();
     }
+
+    public static function FormarLineaCsv($usuario) {
+        $linea = $usuario->id;
+        $linea .= "," . $usuario->usuario;
+        $linea .= "," . $usuario->perfil;
+        $linea .= "," . $usuario->nombre;
+        $linea .= "," . $usuario->sector;
+        $linea .= "," . $usuario->fecha_baja;
+        $linea .= PHP_EOL;
+
+        return $linea;      
+    }
+
 }

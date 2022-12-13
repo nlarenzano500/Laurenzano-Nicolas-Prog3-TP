@@ -142,11 +142,22 @@ class UsuarioController implements IApiUsable {
 
         try {
             // Leer archivo
-            $nombreArchivo = "datos/usuarios.json";
+            $nombreArchivo = "datos/usuarios.csv";
             $archivo = fopen($nombreArchivo, "r");
             if ($archivo) {
-                $json = fread($archivo,filesize($nombreArchivo));
-                $listado = json_decode($json);
+
+                // Recorrer filas del archivo
+                while (!feof($archivo)) {
+                    $usuario = null;
+                    $linea = fgets($archivo);
+                    $usuario = str_getcsv($linea);
+
+                    // Agregar cada usuario del archivo a un array
+                    if ($usuario != null && $usuario[0] != null) {
+                        array_push($listado, $usuario);
+                    }
+                }
+
 
             } else {
                 throw new Exception("Ha ocurrido un error al intentar recuperar los datos del archivo.", 1);
@@ -165,17 +176,16 @@ class UsuarioController implements IApiUsable {
 
         // Elimina usuarios existentes, salvo el que realiza la acción -- CUIDADO CON ESTO --
         Usuario::BorrarTodosMenosYo($payload->usuario);
-
         foreach ($listado as $usuario) {
 
-            if ($usuario->usuario != $payload->usuario) {
+            if ($usuario[0] != $payload->usuario) {
                 // Creamos el usuario
                 $usr = new Usuario();
-                $usr->usuario = $usuario->usuario;
-                $usr->clave = $usuario->clave;
-                $usr->perfil = $usuario->perfil;
-                $usr->nombre = $usuario->nombre;
-                $usr->setSector($usuario->sector);
+                $usr->usuario = $usuario[0];
+                $usr->clave = $usuario[1];
+                $usr->perfil = $usuario[2];
+                $usr->nombre = $usuario[3];
+                $usr->setSector($usuario[4]);
                 $usr->crearUsuario();
             }
          } 
@@ -195,10 +205,14 @@ class UsuarioController implements IApiUsable {
         if ($listado != null) {
 
             try {
-                $nombreArchivo = "datos/usuarios_".date('Y-m-d_h-i').".json";
+                $nombreArchivo = "datos/usuarios_".date('Y-m-d_h-i').".csv";
                 $archivo = fopen($nombreArchivo, "w");
                 if ($archivo) {
-                    $alta = json_encode($listado);
+                    $alta = "";
+                    foreach ($listado as $usuario) {
+                        $alta .= Usuario::FormarLineaCsv($usuario);
+                    }
+
                     fwrite($archivo, $alta);
                     $retorno = "Exportación de datos finalizada: ".$nombreArchivo;
                 }
