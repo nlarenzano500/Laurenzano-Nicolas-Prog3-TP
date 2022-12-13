@@ -57,11 +57,8 @@ class MWparaAutentificar {
 		}  
 
 		if($objDelaRespuesta->respuesta != "") {
-			$payload = json_encode($objDelaRespuesta);
-			$newResponse = new Response();
-			$newResponse->getBody()->write($payload);
-      		$newResponse->withStatus(401);
-			return $newResponse;
+			$payload = json_encode(array("mensaje"=>$objDelaRespuesta->respuesta));
+			return MWparaAutentificar::ArmarResponse(new Response(), $payload, 401);
 		}
 		  
 		return $response;
@@ -119,11 +116,8 @@ class MWparaAutentificar {
 		}  
 
 		if($objDelaRespuesta->respuesta != "") {
-			$payload = json_encode($objDelaRespuesta);
-			$newResponse = new Response();
-			$newResponse->getBody()->write($payload);
-      		$newResponse->withStatus(401);
-			return $newResponse;
+			$payload = json_encode(array("mensaje"=>$objDelaRespuesta->respuesta));
+			return MWparaAutentificar::ArmarResponse(new Response(), $payload, 401);
 		}
 		  
 		return $response;   
@@ -186,13 +180,17 @@ class MWparaAutentificar {
 		}  
 
 		if($objDelaRespuesta->respuesta != "") {
-			$payload = json_encode($objDelaRespuesta);
-			$newResponse = new Response();
-			$newResponse->getBody()->write($payload);
-      		$newResponse->withStatus(401);
-			return $newResponse;
+			$payload = json_encode(array("mensaje"=>$objDelaRespuesta->respuesta));
+			return MWparaAutentificar::ArmarResponse(new Response(), $payload, 401);
 		}
 		  
 		return $response;   
 	}
+
+	private static function ArmarResponse($response, $payload, $status) {
+        $newResponse = $response->withStatus($status);
+        $newResponse->getBody()->write($payload);
+        return $newResponse
+          ->withHeader('Content-Type', 'application/json');
+    }
 }

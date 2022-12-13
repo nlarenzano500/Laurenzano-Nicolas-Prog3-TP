@@ -95,8 +95,7 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->put('/estado', \PedidoController::class . ':ModificarEstado');
     $group->put('/tiempo', \PedidoController::class . ':AgregarTiempo');
 
-    $group->put('[/]', \PedidoController::class . ':ModificarUno');
-
+    $group->put('[/]', \PedidoController::class . ':ModificarUno')->add(\MWparaAutentificar::class . ':VerificarUsuario_1');
     $group->delete('[/]', \PedidoController::class . ':BorrarUno');
   })->add(\MWparaAutentificar::class . ':VerificarUsuario_3')->add(\MWparaCORS::class . ':HabilitarCORS80');
 
