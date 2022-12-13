@@ -23,6 +23,7 @@ require_once './controllers/MesaController.php';
 require_once './controllers/ProductoController.php';
 require_once './controllers/PedidoController.php';
 require_once './controllers/EncuestaController.php';
+require_once './controllers/Logger.php';
 
 // Load ENV
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -47,6 +48,7 @@ $app->post('/usuarios/login', function (Request $request, Response $response) {
 
         if (UsuarioController::VerificarUsuario($datos) ) {
             $token= AutentificadorJWT::CrearToken($datos); 
+            Logger::LogInicial($token);
             $payload = json_encode($token);
             $newResponse = $response->getBody()->write($payload);
             $newResponse = $response->withStatus(200);

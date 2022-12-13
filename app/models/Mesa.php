@@ -38,8 +38,7 @@ class Mesa
         return $consulta->fetchObject('Mesa');
     }
 
-    public function modificarMesa()
-    {
+    public function modificarMesa() {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
 
         $consulta = $objAccesoDatos->prepararConsulta("UPDATE mesas SET estado = :estado WHERE codigo = :codigo");

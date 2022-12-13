@@ -5,6 +5,8 @@ require_once './interfaces/IApiUsable.php';
 class EncuestaController implements IApiUsable {
 
     public function CargarUno($request, $response, $args) {
+        Logger::Log($request, "carga encuesta");
+
         $parametros = $request->getParsedBody();
         
         $id_pedido = $parametros['id_pedido'];
@@ -44,22 +46,25 @@ class EncuestaController implements IApiUsable {
         return EncuestaController::ArmarResponse($response, $mensaje, 200);
     }
 
-    public function TraerUno($request, $response, $args)
-    {
+    public function TraerUno($request, $response, $args) {
+        Logger::Log($request, "consulta encuesta");
+
         // Buscamos encuesta por id_pedido
         $id_pedido = $args['id_pedido'];
         $encuesta = Encuesta::obtenerEncuesta($id_pedido);
         return EncuestaController::ArmarResponseClases($response, $encuesta, 200);
     }
 
-    public function TraerTodos($request, $response, $args)
-    {
+    public function TraerTodos($request, $response, $args) {
+        Logger::Log($request, "consulta encuestas");
+
         $lista = Encuesta::obtenerTodos();
         return EncuestaController::ArmarResponseClases($response, $lista, 200);
     }
     
-    public function ModificarUno($request, $response, $args)
-    {
+    public function ModificarUno($request, $response, $args) {
+        Logger::Log($request, "mod encuesta");
+
         $parametros = $request->getParsedBody();
 
         $id_pedido = $parametros['id_pedido'];
@@ -89,8 +94,9 @@ class EncuestaController implements IApiUsable {
         return EncuestaController::ArmarResponse($response, $mensaje, 200);
     }
 
-    public function BorrarUno($request, $response, $args)
-    {
+    public function BorrarUno($request, $response, $args) {
+        Logger::Log($request, "elimina encuesta");
+
         $parametros = $request->getParsedBody();
 
         $id_pedido = $parametros['id_pedido'];

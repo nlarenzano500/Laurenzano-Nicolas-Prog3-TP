@@ -8,6 +8,8 @@ require_once './models/AutentificadorJWT.php';
 class PedidoController implements IApiUsable {
 
     public function CargarUno($request, $response, $args) {
+        Logger::Log($request, "carga pedido");
+
         $parametros = $request->getParsedBody();
 
         $codigo = $parametros['codigo'];
@@ -57,6 +59,8 @@ class PedidoController implements IApiUsable {
 
 
     public function AgregarFoto($request, $response, $args) {
+        Logger::Log($request, "mod pedido");
+
         $parametros = $request->getParsedBody();
         $codigo = $parametros['codigo'];
 
@@ -73,6 +77,8 @@ class PedidoController implements IApiUsable {
     }
 
     public function TraerUno($request, $response, $args) {
+        Logger::Log($request, "consulta pedido");
+
         // Buscamos pedido por código
         $codigo = $args['codigo'];
         $pedido = Pedido::obtenerPedido($codigo);
@@ -86,6 +92,8 @@ class PedidoController implements IApiUsable {
     }
 
     public function TraerTodos($request, $response, $args) {
+        Logger::Log($request, "consulta pedidos");
+
         $lista = Pedido::obtenerTodos();
 
         foreach ($lista as $pedido) {
@@ -97,6 +105,7 @@ class PedidoController implements IApiUsable {
     }
 
     public function ModificarUno($request, $response, $args) {
+        Logger::Log($request, "mod pedido");
 
         $parametros = $request->getParsedBody();
 
@@ -158,6 +167,8 @@ class PedidoController implements IApiUsable {
     }
 
     public function BorrarUno($request, $response, $args) {
+        Logger::Log($request, "elimina pedido");
+
         $parametros = $request->getParsedBody();
 
         $codigo = $parametros['codigo'];
@@ -176,6 +187,7 @@ class PedidoController implements IApiUsable {
     // Trae todos los pedidos en el estado indicado por parámetro
     // Cada empleado verá los pedidos que contengan productos de su sector
     public function TraerPorEstado($request, $response, $args) {
+        Logger::Log($request, "consulta pedidos");
 
         // Obtenemos el estado buscado
         $estado = $args['estado'];
@@ -198,6 +210,8 @@ class PedidoController implements IApiUsable {
     }
 
     public function ModificarEstado($request, $response, $args) {
+        Logger::Log($request, "mod pedido");
+
         $parametros = $request->getParsedBody();
 
         $codigo = $parametros['codigo'];
@@ -247,7 +261,6 @@ class PedidoController implements IApiUsable {
     }
 
     public static function ServirPedido($codigo) {
-
         // Buscamos pedido por código
         $pedido = Pedido::obtenerPedido($codigo);
         $pedido->estado = 4;
@@ -257,6 +270,8 @@ class PedidoController implements IApiUsable {
     }
 
     public function AgregarTiempo($request, $response, $args) {
+        Logger::Log($request, "mod pedido");
+
         $mensaje = "";
         $parametros = $request->getParsedBody();
 
@@ -297,6 +312,8 @@ class PedidoController implements IApiUsable {
     }
 
     public function TraerTiempo($request, $response, $args) {
+        Logger::Log($request, "consulta pedido");
+
         // Buscamos pedido por código
         $parametros = $request->getQueryParams();
         $codigo = $parametros['pedido'];

@@ -5,6 +5,8 @@ require_once './interfaces/IApiUsable.php';
 class ProductoController implements IApiUsable {
 
     public function CargarUno($request, $response, $args) {
+        Logger::Log($request, "carga producto");
+
         $parametros = $request->getParsedBody();
 
         $descripcion = $parametros['descripcion'];
@@ -26,6 +28,8 @@ class ProductoController implements IApiUsable {
     }
 
     public function TraerUno($request, $response, $args) {
+        Logger::Log($request, "consulta producto");
+
         // Buscamos producto por id
         $id = $args['id'];
 
@@ -42,6 +46,8 @@ class ProductoController implements IApiUsable {
     }
 
     public function TraerTodos($request, $response, $args) {
+        Logger::Log($request, "consulta productos");
+
         $lista = Producto::obtenerTodos();
         $payload = json_encode($lista);
 
@@ -51,6 +57,8 @@ class ProductoController implements IApiUsable {
     }
     
     public function ModificarUno($request, $response, $args) {
+        Logger::Log($request, "mod producto");
+
         $parametros = $request->getParsedBody();
 
         $id = $parametros['id'];
@@ -78,6 +86,8 @@ class ProductoController implements IApiUsable {
     }
 
     public function BorrarUno($request, $response, $args) {
+        Logger::Log($request, "elimina producto");
+
         $parametros = $request->getParsedBody();
         $id = $parametros['id'];
 

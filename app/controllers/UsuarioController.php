@@ -16,6 +16,8 @@ class UsuarioController implements IApiUsable {
     }
 
     public function CargarUno($request, $response, $args) {
+        Logger::Log($request, "carga usuario");
+
         $parametros = $request->getParsedBody();
 
         $usuario = $parametros['usuario'];
@@ -41,6 +43,8 @@ class UsuarioController implements IApiUsable {
     }
 
     public function TraerUno($request, $response, $args) {
+        Logger::Log($request, "consulta usuario");
+
         // Buscamos usuario por nombre
         $usr = $args['usuario'];
         $usuario = Usuario::obtenerUsuario($usr);
@@ -52,6 +56,8 @@ class UsuarioController implements IApiUsable {
     }
 
     public function TraerTodos($request, $response, $args) {
+        Logger::Log($request, "consulta usuarios");
+
         $lista = Usuario::obtenerTodos();
         $payload = json_encode($lista);
 
@@ -61,6 +67,7 @@ class UsuarioController implements IApiUsable {
     }
     
     public function ModificarUno($request, $response, $args) {
+        Logger::Log($request, "mod usuario");
 
         $parametros = $request->getParsedBody();
 
@@ -93,6 +100,8 @@ class UsuarioController implements IApiUsable {
     }
 
     public function BorrarUno($request, $response, $args) {
+        Logger::Log($request, "elimina usuario");
+
         $parametros = $request->getParsedBody();
 
         $idUsuario = $parametros['id_usuario'];
@@ -109,6 +118,7 @@ class UsuarioController implements IApiUsable {
     }
 
     public function SuspenderUno($request, $response, $args) {
+        Logger::Log($request, "suspende usuario");
 
         $parametros = $request->getParsedBody();
 

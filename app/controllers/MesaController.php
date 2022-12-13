@@ -4,8 +4,9 @@ require_once './interfaces/IApiUsable.php';
 
 class MesaController implements IApiUsable
 {
-    public function CargarUno($request, $response, $args)
-    {
+    public function CargarUno($request, $response, $args) {
+        Logger::Log($request, "carga mesa");
+
         $parametros = $request->getParsedBody();
 
         $codigo = $parametros['codigo'];
@@ -23,22 +24,25 @@ class MesaController implements IApiUsable
         return MesaController::ArmarResponse($response, $mensaje, 200);
     }
 
-    public function TraerUno($request, $response, $args)
-    {
+    public function TraerUno($request, $response, $args) {
+        Logger::Log($request, "consulta mesa");
+
         // Buscamos mesa por código
         $codigo = $args['codigo'];
         $mesa = Mesa::obtenerMesa($codigo);
         return MesaController::ArmarResponseClases($response, $mesa, 200);
     }
 
-    public function TraerTodos($request, $response, $args)
-    {
+    public function TraerTodos($request, $response, $args) {
+        Logger::Log($request, "consulta mesas");
+
         $lista = Mesa::obtenerTodos();
         return MesaController::ArmarResponseClases($response, $lista, 200);
     }
     
-    public function ModificarUno($request, $response, $args)
-    {
+    public function ModificarUno($request, $response, $args) {
+        Logger::Log($request, "mod mesa");
+
         $parametros = $request->getParsedBody();
 
         $id_mesa = $parametros['id_mesa'];
@@ -60,10 +64,9 @@ class MesaController implements IApiUsable
         // Creamos la mesa
         $mesa = new Mesa();
         $mesa->estado = $estado;
-        $mesa->id_mesa = $id_mesa;
+        $mesa->codigo = $id_mesa;
 
         if ($mesa->modificarMesa()) {
-
             if ($estado == 2) {
                 // Al pasar a este estado, se debe cambiar el estado del pedido a "4 - Servido"
                 $id_pedido = $parametros['id_pedido'];
@@ -77,8 +80,9 @@ class MesaController implements IApiUsable
         return MesaController::ArmarResponse($response, $mensaje, 200);
     }
 
-    public function BorrarUno($request, $response, $args)
-    {
+    public function BorrarUno($request, $response, $args) {
+        Logger::Log($request, "elimina mesa");
+
         $parametros = $request->getParsedBody();
 
         $codigo = $parametros['codigo'];
