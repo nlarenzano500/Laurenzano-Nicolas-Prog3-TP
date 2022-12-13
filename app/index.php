@@ -22,6 +22,7 @@ require_once './controllers/UsuarioController.php';
 require_once './controllers/MesaController.php';
 require_once './controllers/ProductoController.php';
 require_once './controllers/PedidoController.php';
+require_once './controllers/EncuestaController.php';
 
 // Load ENV
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -98,6 +99,20 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->put('[/]', \PedidoController::class . ':ModificarUno')->add(\MWparaAutentificar::class . ':VerificarUsuario_1');
     $group->delete('[/]', \PedidoController::class . ':BorrarUno');
   })->add(\MWparaAutentificar::class . ':VerificarUsuario_3')->add(\MWparaCORS::class . ':HabilitarCORS80');
+
+
+$app->group('/encuesta', function (RouteCollectorProxy $group) {
+    $group->get('[/]', \EncuestaController::class . ':TraerTodos');
+    $group->get('/{id_pedido}', \EncuestaController::class . ':TraerUno');
+    $group->post('[/]', \EncuestaController::class . ':CargarUno');
+    $group->put('[/]', \EncuestaController::class . ':ModificarUno');
+    $group->delete('[/]', \EncuestaController::class . ':BorrarUno');
+  })->add(\MWparaAutentificar::class . ':VerificarUsuario_5')->add(\MWparaCORS::class . ':HabilitarCORS80');
+
+
+
+
+
 
 $app->get('[/]', function (Request $request, Response $response) {    
     $response->getBody()->write("TP Laurenzano");

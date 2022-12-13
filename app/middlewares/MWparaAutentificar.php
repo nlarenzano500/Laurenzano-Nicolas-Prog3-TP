@@ -196,6 +196,68 @@ class MWparaAutentificar {
 		}
 	}
 
+	// "POST" está permitido para todos, sin ser usuario registrado
+	// "GET" y "POST" solo para socios y admin, cuando es usuario registrado
+	// "PUT" y "DELETE" solo para admin
+	public function VerificarUsuario_5($request, $handler) {
+		$objDelaRespuesta= new stdclass();
+		$objDelaRespuesta->respuesta = "";
+		$objDelaRespuesta->esValido = false;
+
+		try  {
+			$token = AutentificadorJWT::ObtenerToken($request);
+			AutentificadorJWT::verificarToken($token);
+
+			$payload=AutentificadorJWT::ObtenerData($token);
+			if (UsuarioController::VerificarUsuario(array("usuario"=>$payload->usuario, "perfil"=>$payload->perfil, "clave"=>$payload->clave)) )
+				$objDelaRespuesta->esValido=true;
+			else
+				$objDelaRespuesta->respuesta="Datos de usuario inválidos.";
+
+		} catch (Exception $e) {
+			//guardar en un log
+			$objDelaRespuesta->excepcion=$e->getMessage();
+			$objDelaRespuesta->esValido=false;     
+		}
+
+		$method = $request->getMethod();
+
+		if($objDelaRespuesta->esValido) {
+			if($method == "GET" || $method == "POST") {
+				// "GET" y "POST" solo para socios y admin, cuando es usuario registrado
+				if($payload->perfil=="socio" || $payload->perfil=="admin") {
+						$response = $handler->handle($request);
+
+				} else {
+					$objDelaRespuesta->respuesta="Solo socios y administradores.";
+				}
+
+			} else if($method == "PUT" || $method == "DELETE") {
+				// "PUT" y "DELETE" solo para admin
+				if($payload->perfil=="admin") {
+						$response = $handler->handle($request);
+
+				} else {
+					$objDelaRespuesta->respuesta="Solo administradores.";
+				}
+			}
+
+		} else {
+			if($method == "POST") {
+				// "POST" está permitido para todos, sin ser usuario registrado
+				$response = $handler->handle($request);
+			} else {
+				$objDelaRespuesta->respuesta="Solo usuarios registrados.";
+			}
+		}
+	
+		if($objDelaRespuesta->respuesta != "") {
+			return MWparaAutentificar::ArmarResponse(new Response(), $objDelaRespuesta->respuesta, 401);
+		}
+
+		return $response;
+	}
+
 	private static function ArmarResponse($response, $mensaje, $status) {
         $newResponse = $response->withStatus($status);
         $payload = json_encode(array("mensaje"=>$mensaje));

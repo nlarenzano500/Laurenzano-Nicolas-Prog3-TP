@@ -38,13 +38,13 @@ class Mesa
         return $consulta->fetchObject('Mesa');
     }
 
-    public function modificarMesa($codigo)
+    public function modificarMesa()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
 
         $consulta = $objAccesoDatos->prepararConsulta("UPDATE mesas SET estado = :estado WHERE codigo = :codigo");
         $consulta->bindValue(':estado', $this->estado, PDO::PARAM_STR);
-        $consulta->bindValue(':codigo', $codigo, PDO::PARAM_STR);
+        $consulta->bindValue(':codigo', $this->codigo, PDO::PARAM_STR);
         $consulta->execute();
         return $consulta->rowCount();
     }
@@ -53,7 +53,7 @@ class Mesa
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDato->prepararConsulta("DELETE FROM mesas WHERE codigo = :codigo");
-        $consulta->bindValue(':codigo', $codigo, PDO::PARAM_INT);
+        $consulta->bindValue(':codigo', $codigo, PDO::PARAM_STR);
         $consulta->execute();
         return $consulta->rowCount();
     }

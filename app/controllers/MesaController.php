@@ -60,8 +60,9 @@ class MesaController implements IApiUsable
         // Creamos la mesa
         $mesa = new Mesa();
         $mesa->estado = $estado;
+        $mesa->id_mesa = $id_mesa;
 
-        if ($mesa->modificarMesa($id_mesa)) {
+        if ($mesa->modificarMesa()) {
 
             if ($estado == 2) {
                 // Al pasar a este estado, se debe cambiar el estado del pedido a "4 - Servido"
