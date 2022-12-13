@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 13-12-2022 a las 22:37:59
+-- Tiempo de generación: 13-12-2022 a las 22:47:19
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.4
 
@@ -186,7 +186,10 @@ INSERT INTO `operaciones` (`id`, `usuario`, `tipo`, `fecha`) VALUES
 (107, 'admin', 'consulta operaciones', '2022-12-13 18:34:10'),
 (108, 'admin', 'consulta operaciones', '2022-12-13 18:34:23'),
 (109, 'admin', 'consulta operaciones', '2022-12-13 18:34:27'),
-(110, 'admin', 'consulta usuarios', '2022-12-13 18:34:32');
+(110, 'admin', 'consulta usuarios', '2022-12-13 18:34:32'),
+(111, 'admin', 'carga producto', '2022-12-13 18:45:41'),
+(112, 'admin', 'carga producto', '2022-12-13 18:46:14'),
+(113, 'admin', 'carga producto', '2022-12-13 18:46:50');
 
 -- --------------------------------------------------------
 
@@ -269,7 +272,10 @@ INSERT INTO `productos_stock` (`id`, `descripcion`, `precio`, `sector`, `vendido
 (1, 'cerveza', 500, 'barra_cerveza', 3),
 (2, 'cerveza roja', 500, 'barra_cerveza', 0),
 (4, 'cerveza rubia', 600, 'barra_cerveza', 0),
-(5, 'milanesa a caballo', 1200, 'cocina', 0);
+(5, 'milanesa a caballo', 1200, 'cocina', 0),
+(7, 'hamburguesa de garbanzo', 100, 'cocina', 0),
+(8, 'corona', 700, 'barra_cerveza', 0),
+(9, 'daikiri', 600, 'barra_vino', 0);
 
 -- --------------------------------------------------------
 
@@ -355,13 +361,13 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `operaciones`
 --
 ALTER TABLE `operaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
 
 --
 -- AUTO_INCREMENT de la tabla `productos_stock`
 --
 ALTER TABLE `productos_stock`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
