@@ -1,0 +1,2456 @@
+{
+	"info": {
+		"_postman_id": "20f0492f-ef12-4663-83f6-d6f026dc918a",
+		"name": "TP_Prog3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5583991"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Login - Mozo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"usuario\": \"mozo 01\",\n    \"clave\": \"1234\",\n    \"perfil\": \"mozo\"\n}"
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/usuarios/login",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"usuarios",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login - Bartender",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"usuario\": \"bar01\",\n    \"clave\": \"1234\",\n    \"perfil\": \"bartender\"\n}"
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/usuarios/login",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"usuarios",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login - Cervecero",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"usuario\": \"cerve01\",\n    \"clave\": \"1234\",\n    \"perfil\": \"cervecero\"\n}"
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/usuarios/login",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"usuarios",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login - Socio",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"usuario\": \"user02\",\n    \"clave\": \"1234\",\n    \"perfil\": \"socio\"\n}"
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/usuarios/login",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"usuarios",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login - Admin",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"usuario\": \"admin\",\n    \"clave\": \"1234\",\n    \"perfil\": \"admin\"\n}"
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/usuarios/login",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"usuarios",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Crear Usuario - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"usuario\": \"mozo05\",\n    \"clave\": \"1234\",\n    \"perfil\": \"mozo\",\n    \"nombre\": \"Mozo 05\",\n    \"sector\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/usuarios",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Importar Usuarios - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/usuarios/importar",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"usuarios",
+								"importar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Exportar Usuarios - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/usuarios/exportar",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"usuarios",
+								"exportar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Todos - Mozo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_mozo}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/usuarios",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Todos - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/usuarios",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Todos - Socio",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_socio}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/usuarios",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Uno - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/usuarios/user02",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"usuarios",
+								"user02"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_usuario\": 23,\n    \"usuario\": \"admin\",\n    \"clave\": 1234,\n    \"perfil\": \"admin\",\n    \"nombre\": \"Administrador\",\n    \"sector\": null,\n    \"fecha_baja\": null\n}"
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/usuarios",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Suspender - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_usuario\":5\n}"
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/usuarios/suspender",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"usuarios",
+								"suspender"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_usuario\":15\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/usuarios",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Productos",
+			"item": [
+				{
+					"name": "Crear - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"descripcion\": \"milanesa a caballo\",\n    \"precio\": 1200,\n    \"sector\": \"cocina\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/productos",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Todos - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/productos",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Uno - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/productos/1",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"productos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar  - Admin",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"descripcion\": \"cerveza\",\n    \"precio\": 500,\n    \"sector\": \"barra_cerveza\",\n    \"vendidos\": 3\n}"
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/productos",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar  - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 6\n}"
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/productos",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"productos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mesas",
+			"item": [
+				{
+					"name": "Crear - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"codigo\": \"M0010\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/mesas",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"mesas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Todas - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/mesas",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"mesas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Una - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/mesas/M0009",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"mesas",
+								"M0009"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"codigo\": \"M0007\",\n    \"estado\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/mesas",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"mesas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cambiar a Cliente comiendo - Mozo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_mozo}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_mesa\": \"M0006\",\n    \"id_pedido\": \"P0006\",\n    \"estado\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/mesas",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"mesas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cambiar a Cliente pagando - Mozo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_mozo}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_mesa\": \"M0006\",\n    \"id_pedido\": \"P0006\",\n    \"estado\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/mesas",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"mesas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cambiar a Cerrada- Mozo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_mozo}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_mesa\": \"M0006\",\n    \"id_pedido\": \"P0006\",\n    \"estado\": 4\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/mesas",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"mesas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cambiar a Cerrada- Socio",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_socio}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_mesa\": \"M0006\",\n    \"id_pedido\": \"P0006\",\n    \"estado\": 4\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/mesas",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"mesas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"codigo\": \"M0009\"\n}"
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/mesas",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"mesas"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pedidos",
+			"item": [
+				{
+					"name": "Crear - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "codigo",
+									"value": "P0005",
+									"type": "text"
+								},
+								{
+									"key": "id_mesa",
+									"value": "M0001",
+									"type": "text"
+								},
+								{
+									"key": "cliente",
+									"value": "Cliente 01",
+									"type": "text"
+								},
+								{
+									"key": "foto",
+									"type": "file",
+									"src": "/home/nlaurenzano/Imágenes/Mesa y clientes.jpg"
+								},
+								{
+									"key": "productos",
+									"value": "[{\"id\":5,\"cantidad\":2},{\"id\":2,\"cantidad\":2}]",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/pedidos",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear - Mozo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_mozo}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "codigo",
+									"value": "P0006",
+									"type": "text"
+								},
+								{
+									"key": "id_mesa",
+									"value": "M0006",
+									"type": "text"
+								},
+								{
+									"key": "cliente",
+									"value": "Cliente 06",
+									"type": "text"
+								},
+								{
+									"key": "foto",
+									"type": "file",
+									"src": "/home/nlaurenzano/Imágenes/Mesa y clientes.jpg"
+								},
+								{
+									"key": "productos",
+									"value": "[{\"id\":4,\"cantidad\":3},{\"id\":5,\"cantidad\":2}]",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/pedidos",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar Foto - Mozo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_mozo}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "codigo",
+									"value": "P0004",
+									"type": "text"
+								},
+								{
+									"key": "foto",
+									"type": "file",
+									"src": "/home/nlaurenzano/Imágenes/keyboardcat.gif"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/pedidos/foto",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"pedidos",
+								"foto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Todos - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/pedidos",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Uno - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/pedidos/P0005",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"pedidos",
+								"P0005"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Pendientes - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/pedidos/estado/1",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"pedidos",
+								"estado",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Pendientes - Socio",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_socio}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/pedidos/estado/1",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"pedidos",
+								"estado",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Pendientes - Mozo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_mozo}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/pedidos/estado/1",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"pedidos",
+								"estado",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Pendientes - Bartender",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_bartender}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/pedidos/estado/1",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"pedidos",
+								"estado",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Pendientes - Cervecero",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_cervecero}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/pedidos/estado/1",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"pedidos",
+								"estado",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Listos para servir - Mozo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_mozo}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/pedidos/estado/3",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"pedidos",
+								"estado",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar sin Productos - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"codigo\": \"P0005\",\n    \"id_mesa\": \"M0002\",\n    \"importe\": 3802,\n    \"estado\": 1,\n    \"cliente\": \"Cliente test\",\n    \"tiempo_estimado\": 0,\n    \"tiempo_excedido\": 0,\n    \"productos\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/pedidos",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar sin Productos - Mozo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_mozo}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"codigo\": \"P0006\",\n    \"id_mesa\": \"M0006\",\n    \"importe\": 4802,\n    \"estado\": 1,\n    \"cliente\": \"Cliente 06\",\n    \"tiempo_estimado\": 0,\n    \"tiempo_excedido\": 0,\n    \"productos\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/pedidos",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "En Preparación - Cervecero",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_cervecero}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"codigo\": \"P0004\",\n    \"estado\": 2,\n    \"tiempo_estimado\": 15\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/pedidos/estado",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"pedidos",
+								"estado"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listo para servir - Cervecero",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_cervecero}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"codigo\": \"P0006\",\n    \"estado\": 3,\n    \"tiempo_estimado\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/pedidos/estado",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"pedidos",
+								"estado"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancelar - Mozo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_mozo}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"codigo\": \"P0005\",\n    \"estado\": 9,\n    \"tiempo_estimado\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/pedidos/estado",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"pedidos",
+								"estado"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar tiempo - Cervecero",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_cervecero}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"codigo\": \"P0005\",\n    \"tiempo_estimado\": 51\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/pedidos/tiempo",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"pedidos",
+								"tiempo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar tiempo - Mozo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_mozo}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"codigo\": \"P0005\",\n    \"tiempo_estimado\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/pedidos/tiempo",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"pedidos",
+								"tiempo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Tiempo Restante - Cliente",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/pedidos/tiempoRestante?pedido=P0005&mesa=M0001",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"pedidos",
+								"tiempoRestante"
+							],
+							"query": [
+								{
+									"key": "pedido",
+									"value": "P0005"
+								},
+								{
+									"key": "mesa",
+									"value": "M0001"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar Uno - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"codigo\":\"P0006\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/pedidos",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Exportar PDF - Socio",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_socio}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/pedidos/exportarPdf",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"pedidos",
+								"exportarPdf"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Encuestas",
+			"item": [
+				{
+					"name": "Crear - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_pedido\": \"P0005\",\n    \"id_mesa\": \"M0001\",\n    \"puntaje_mesa\": \"4\",\n    \"puntaje_restaurante\": \"5\",\n    \"puntaje_mozo\": \"6\",\n    \"puntaje_cocinero\": \"7\",\n    \"texto\": \"Probando la encuesta\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/encuesta",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"encuesta"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear - Cliente",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_pedido\": \"P0005\",\n    \"id_mesa\": \"M0001\",\n    \"puntaje_mesa\": \"4\",\n    \"puntaje_restaurante\": \"5\",\n    \"puntaje_mozo\": \"6\",\n    \"puntaje_cocinero\": \"7\",\n    \"texto\": \"Probando la encuesta\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/encuesta",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"encuesta"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Todas - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/encuesta",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"encuesta"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Todas - Socio",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_socio}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/encuesta",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"encuesta"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Todas - Cliente",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/encuesta",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"encuesta"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Una- Socio",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_socio}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_WS}}/app/encuesta/P0005",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"encuesta",
+								"P0005"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar Una - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_pedido\": \"P0005\",\n    \"id_mesa\": \"M0001\",\n    \"puntaje_mesa\": \"3\",\n    \"puntaje_restaurante\": \"3\",\n    \"puntaje_mozo\": \"3\",\n    \"puntaje_cocinero\": \"3\",\n    \"texto\": \"Probando la encuesta 2\"\n}"
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/encuesta",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"encuesta"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar Una - Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id_pedido\": \"P0005\"\n}"
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/encuesta",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"encuesta"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Operaciones",
+			"item": [
+				{
+					"name": "Obtener Login - Admin",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"tipo\": \"login\"\n}"
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/operaciones/reporte",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"operaciones",
+								"reporte"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener por Sector Cerveza - Admin",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"tipo\": \"sector\",\n    \"sector\": \"barra_cerveza\"\n}"
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/operaciones/reporte",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"operaciones",
+								"reporte"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener por Sector Vino - Admin",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"tipo\": \"sector\",\n    \"sector\": \"barra_vino\"\n}"
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/operaciones/reporte",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"operaciones",
+								"reporte"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener por Sector Cocina - Admin",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"tipo\": \"sector\",\n    \"sector\": \"cocina\"\n}"
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/operaciones/reporte",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"operaciones",
+								"reporte"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener por Sector General - Admin",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"tipo\": \"sector\",\n    \"sector\": null\n}"
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/operaciones/reporte",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"operaciones",
+								"reporte"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
