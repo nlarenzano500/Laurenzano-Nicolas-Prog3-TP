@@ -15,14 +15,12 @@ class MesaController implements IApiUsable
         $mesa->codigo = $codigo;
 
         if ($mesa->crearMesa()) {
-            $payload = json_encode(array("mensaje" => "Mesa creada."));
+            $mensaje = "Mesa creada.";
         } else {
-            $payload = json_encode(array("mensaje" => "La mesa no fue creada."));
+            $mensaje = "La mesa no fue creada.";
         }
 
-        $response->getBody()->write($payload);
-        return $response
-          ->withHeader('Content-Type', 'application/json');
+        return MesaController::ArmarResponse($response, $mensaje, 200);
     }
 
     public function TraerUno($request, $response, $args)
@@ -30,43 +28,52 @@ class MesaController implements IApiUsable
         // Buscamos mesa por código
         $codigo = $args['codigo'];
         $mesa = Mesa::obtenerMesa($codigo);
-        $payload = json_encode($mesa);
-
-        $response->getBody()->write($payload);
-        return $response
-          ->withHeader('Content-Type', 'application/json');
+        return MesaController::ArmarResponseClases($response, $mesa, 200);
     }
 
     public function TraerTodos($request, $response, $args)
     {
         $lista = Mesa::obtenerTodos();
-        $payload = json_encode($lista);
-
-        $response->getBody()->write($payload);
-        return $response
-          ->withHeader('Content-Type', 'application/json');
+        return MesaController::ArmarResponseClases($response, $lista, 200);
     }
     
     public function ModificarUno($request, $response, $args)
     {
         $parametros = $request->getParsedBody();
 
-        $codigo = $parametros['codigo'];
+        $id_mesa = $parametros['id_mesa'];
         $estado = $parametros['estado'];
+
+        // Obtenemos el usuario a partir de los datos del token
+        $token = AutentificadorJWT::ObtenerToken($request);
+        $payload=AutentificadorJWT::ObtenerData($token);
+        $usuario = Usuario::obtenerUsuario($payload->usuario);
+
+        if ($usuario->perfil == "mozo" && $estado != 2 && $estado != 3) {
+            // Este perfil solo puede cambiar a estos estados:
+            //      2 - Con cliente comiendo
+            //      3 - Con cliente pagando
+            return MesaController::ArmarResponse($response,
+            "Solo puede cambiar una mesa a los estados 'Con cliente comiendo' y 'Con cliente pagando'.", 401);
+        }
 
         // Creamos la mesa
         $mesa = new Mesa();
         $mesa->estado = $estado;
 
-        if ($mesa->modificarMesa($codigo)) {
-            $payload = json_encode(array("mensaje" => "Mesa modificada."));
+        if ($mesa->modificarMesa($id_mesa)) {
+
+            if ($estado == 2) {
+                // Al pasar a este estado, se debe cambiar el estado del pedido a "4 - Servido"
+                $id_pedido = $parametros['id_pedido'];
+                PedidoController::ServirPedido($id_pedido);
+            }
+            $mensaje = "Mesa modificada.";
         } else {
-            $payload = json_encode(array("mensaje" => "La mesa no fue modificada."));
+            $mensaje = "La mesa no fue modificada.";
         }
 
-        $response->getBody()->write($payload);
-        return $response
-          ->withHeader('Content-Type', 'application/json');
+        return MesaController::ArmarResponse($response, $mensaje, 200);
     }
 
     public function BorrarUno($request, $response, $args)
@@ -76,13 +83,27 @@ class MesaController implements IApiUsable
         $codigo = $parametros['codigo'];
         
         if (Mesa::borrarMesa($codigo)) {
-            $payload = json_encode(array("mensaje" => "Mesa eliminada."));
+            $mensaje = "Mesa eliminada.";
         } else {
-            $payload = json_encode(array("mensaje" => "La mesa no fue eliminada."));
+            $mensaje = "La mesa no fue eliminada.";
         }
 
-        $response->getBody()->write($payload);
-        return $response
+        return MesaController::ArmarResponse($response, $mensaje, 200);
+    }
+
+    private static function ArmarResponse($response, $mensaje, $status) {
+        $newResponse = $response->withStatus($status);
+        $payload = json_encode(array("mensaje"=>$mensaje));
+        $newResponse->getBody()->write($payload);
+        return $newResponse
+          ->withHeader('Content-Type', 'application/json');
+    }
+
+    private static function ArmarResponseClases($response, $mensaje, $status) {
+        $newResponse = $response->withStatus($status);
+        $payload = json_encode($mensaje);
+        $newResponse->getBody()->write($payload);
+        return $newResponse
           ->withHeader('Content-Type', 'application/json');
     }
 }

@@ -148,6 +148,23 @@ class Pedido {
         return $consulta->rowCount();
     }
 
+    public function modificarServido() {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+
+        if ($this->tiempo_excedido == null || $this->tiempo_excedido == 0) {
+            $consulta = $objAccesoDatos->prepararConsulta("UPDATE pedidos SET estado = :estado WHERE codigo = :codigo");
+
+        } else {
+            $consulta = $objAccesoDatos->prepararConsulta("UPDATE pedidos SET estado = :estado, tiempo_excedido = :tiempo_excedido WHERE codigo = :codigo");
+            $consulta->bindValue(':tiempo_excedido', $this->tiempo_excedido, PDO::PARAM_STR);
+        }
+
+        $consulta->bindValue(':codigo', $this->codigo, PDO::PARAM_STR);
+        $consulta->bindValue(':estado', $this->estado, PDO::PARAM_STR);
+        $consulta->execute();
+        return $consulta->rowCount();
+    }
+
     public function modificarTiempo() {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
 
@@ -157,6 +174,22 @@ class Pedido {
         $consulta->execute();
         return $consulta->rowCount();
     }
+
+    public function CalcularTiempo() {
+        date_default_timezone_set("America/Argentina/Buenos_Aires");
+        $horario_estimado = date_create();
+        date_timestamp_set($horario_estimado, strtotime($this->creado));
+        date_add($horario_estimado,date_interval_create_from_date_string($this->tiempo_estimado." minutes"));
+        $hora_actual = date_create();
+
+        if ($horario_estimado < $hora_actual) {
+            // Tiempo excedido
+            $diferencia = date_diff($horario_estimado,$hora_actual);
+            $this->tiempo_excedido = $diferencia->format("%H:%i");
+        }
+    }
+
+
 
 
 

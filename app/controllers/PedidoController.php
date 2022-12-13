@@ -47,12 +47,12 @@ class PedidoController implements IApiUsable {
         $pedido->importe = $importeTotal;
 
         if ($pedido->crearPedido()) {
-            $payload = json_encode(array("mensaje" => "Pedido creado."));
+            $mensaje = "Pedido creado.";
         } else {
-            $payload = json_encode(array("mensaje" => "El pedido no fue creado."));
+            $mensaje = "El pedido no fue creado.";
         }
 
-        return PedidoController::ArmarResponse($response, $payload, 200);
+        return PedidoController::ArmarResponse($response, $mensaje, 200);
     }
 
 
@@ -64,12 +64,12 @@ class PedidoController implements IApiUsable {
         $pedido = Pedido::obtenerPedido($codigo);
 
          if ($pedido->agregarFoto()) {
-            $payload = json_encode(array("mensaje" => "Foto agregada."));
+            $mensaje = "Foto agregada.";
         } else {
-            $payload = json_encode(array("mensaje" => "La foto no fue agregada."));
+            $mensaje = "La foto no fue agregada.";
         }
 
-        return PedidoController::ArmarResponse($response, $payload, 200);
+        return PedidoController::ArmarResponse($response, $mensaje, 200);
     }
 
     public function TraerUno($request, $response, $args) {
@@ -82,8 +82,7 @@ class PedidoController implements IApiUsable {
             $pedido->productos = $productosPedido;
         }
 
-        $payload = json_encode($pedido);
-        return PedidoController::ArmarResponse($response, $payload, 200);
+        return PedidoController::ArmarResponseClases($response, $pedido, 200);
     }
 
     public function TraerTodos($request, $response, $args) {
@@ -94,8 +93,7 @@ class PedidoController implements IApiUsable {
             $pedido->productos = $productosPedido;
         }
 
-        $payload = json_encode($lista);
-        return PedidoController::ArmarResponse($response, $payload, 200);
+        return PedidoController::ArmarResponseClases($response, $lista, 200);
     }
 
     public function ModificarUno($request, $response, $args) {
@@ -151,12 +149,12 @@ class PedidoController implements IApiUsable {
         }
 
         if ($pedido->modificarPedido($codigo)) {
-            $payload = json_encode(array("mensaje" => "Pedido modificado."));
+            $mensaje = "Pedido modificado.";
         } else {
-            $payload = json_encode(array("mensaje" => "El pedido no fue modificado."));
+            $mensaje = "El pedido no fue modificado.";
         }
 
-        return PedidoController::ArmarResponse($response, $payload, 200);
+        return PedidoController::ArmarResponse($response, $mensaje, 200);
     }
 
     public function BorrarUno($request, $response, $args) {
@@ -167,12 +165,12 @@ class PedidoController implements IApiUsable {
         if (Pedido::borrarPedido($codigo)) {
             // Se borran los productos asociados al pedido
             ProductoPedido::borrarProductosPedidos($codigo);
-            $payload = json_encode(array("mensaje" => "Pedido eliminado."));
+            $mensaje = "Pedido eliminado.";
         } else {
-            $payload = json_encode(array("mensaje" => "El pedido no fue eliminado."));
+            $mensaje = "El pedido no fue eliminado.";
         }
 
-        return PedidoController::ArmarResponse($response, $payload, 200);
+        return PedidoController::ArmarResponse($response, $mensaje, 200);
     }
     
     // Trae todos los pedidos en el estado indicado por parámetro
@@ -196,8 +194,7 @@ class PedidoController implements IApiUsable {
             $pedido->productos = $productosPedido;
         }
 
-        $payload = json_encode($pedidos);
-        return PedidoController::ArmarResponse($response, $payload, 200);
+        return PedidoController::ArmarResponseClases($response, $pedidos, 200);
     }
 
     public function ModificarEstado($request, $response, $args) {
@@ -217,20 +214,20 @@ class PedidoController implements IApiUsable {
             //  2 - En preparación
             //  3 - Listo para servir
             if ($estado != 2 && $estado != 3) {
-                $payload = json_encode(array("mensaje" => "Solo puede cambiar un pedido a los estados 'En preparación' y 'Listo para servir'."));
-                return PedidoController::ArmarResponse($response, $payload, 401);
+                return PedidoController::ArmarResponse($response,
+                 "Solo puede cambiar un pedido a los estados 'En preparación' y 'Listo para servir'.", 401);
             }
 
             if ($estado == 2 && ($tiempo_estimado == null || $tiempo_estimado == 0)) {
-                $payload = json_encode(array("mensaje" => "Al poner un pedido en estado 'En preparación', se necesita el tiempo estimado."));
-                return PedidoController::ArmarResponse($response, $payload, 401);
+                return PedidoController::ArmarResponse($response,
+                 "Al poner un pedido en estado 'En preparación', se necesita el tiempo estimado.", 401);
             }
         } else if ($usuario->perfil == "mozo") {
             // Solo pueden cambiar a los estados:
             //  9 - Cancelado
             if ($estado != 9) {
-                $payload = json_encode(array("mensaje" => "Solo puede cambiar un pedido al estado 'Cancelado'."));
-                return PedidoController::ArmarResponse($response, $payload, 401);
+                return PedidoController::ArmarResponse($response,
+                "Solo puede cambiar un pedido al estado 'Cancelado'.", 401);
             }
         }
 
@@ -241,16 +238,26 @@ class PedidoController implements IApiUsable {
         $pedido->tiempo_estimado = $tiempo_estimado;
 
         if ($pedido->modificarEstado()) {
-            $payload = json_encode(array("mensaje" => "Pedido modificado."));
+            $mensaje = "Pedido modificado.";
         } else {
-            $payload = json_encode(array("mensaje" => "El pedido no fue modificado."));
+            $mensaje = "El pedido no fue modificado.";
         }
 
-        return PedidoController::ArmarResponse($response, $payload, 200);
+        return PedidoController::ArmarResponse($response, $mensaje, 200);
+    }
+
+    public static function ServirPedido($codigo) {
+
+        // Buscamos pedido por código
+        $pedido = Pedido::obtenerPedido($codigo);
+        $pedido->estado = 4;
+        $pedido->CalcularTiempo();
+
+        $pedido->modificarServido();
     }
 
     public function AgregarTiempo($request, $response, $args) {
-        $retorno = "";
+        $mensaje = "";
         $parametros = $request->getParsedBody();
 
         $codigo = $parametros['codigo'];
@@ -263,31 +270,30 @@ class PedidoController implements IApiUsable {
 
         if ($usuario->perfil == "mozo") {
             // Este perfil es el único que no puede agregar tiempo a un pedido
-            $retorno = "No tiene permitido agregar tiempo a los pedidos.";
+            $mensaje = "No tiene permitido agregar tiempo a los pedidos.";
         } else {
             // Buscamos pedido por código
             $pedido = Pedido::obtenerPedido($codigo);
 
             if ($pedido->estado != 2) {
                 // Solo se puede agregar tiempo a un pedido en estado "En preparación"
-                $retorno = "Solo se puede agregar tiempo a un pedido en estado 'En preparación'.";
+                $mensaje = "Solo se puede agregar tiempo a un pedido en estado 'En preparación'.";
             }
         }
 
-        if($retorno != "") {
-            $payload = json_encode(array("mensaje" => $retorno));
-            return PedidoController::ArmarResponse($response, $payload, 401);
+        if($mensaje != "") {
+            return PedidoController::ArmarResponse($response, $mensaje, 401);
         }
 
         // Se agrega el tiempo indicado al pedido
         $pedido->tiempo_estimado += $tiempo_estimado;
         if ($pedido->modificarTiempo()) {
-            $payload = json_encode(array("mensaje" => "Pedido modificado."));
+            $mensaje = "Pedido modificado.";
         } else {
-            $payload = json_encode(array("mensaje" => "El pedido no fue modificado."));
+            $mensaje = "El pedido no fue modificado.";
         }
 
-        return PedidoController::ArmarResponse($response, $payload, 200);
+        return PedidoController::ArmarResponse($response, $mensaje, 200);
     }
 
     public function TraerTiempo($request, $response, $args) {
@@ -308,22 +314,31 @@ class PedidoController implements IApiUsable {
 
             if ($horario_estimado < $hora_actual) {
                 // Tiempo excedido
-                $payload = json_encode(array("mensaje" => "Tiempo de espera excedido."));
+                $mensaje = "Tiempo de espera excedido.";
 
             } else {
                 $diferencia = date_diff($horario_estimado,$hora_actual);
-                $payload = json_encode(array("mensaje" => "Tiempo de espera restante: " . $diferencia->format("%H:%i")));
+                $mensaje = "Tiempo de espera restante: " . $diferencia->format("%H:%i");
             }
         } else {
-            $payload = json_encode(array("mensaje" => "El código de mesa ingresado no corresponde al pedido."));
-            return PedidoController::ArmarResponse($response, $payload, 401);
+            $mensaje = "El código de mesa ingresado no corresponde al pedido.";
+            return PedidoController::ArmarResponse($response, $mensaje, 401);
         }
 
-        return PedidoController::ArmarResponse($response, $payload, 200);
+        return PedidoController::ArmarResponse($response, $mensaje, 200);
     }
 
-    private static function ArmarResponse($response, $payload, $status) {
+    private static function ArmarResponse($response, $mensaje, $status) {
         $newResponse = $response->withStatus($status);
+        $payload = json_encode(array("mensaje"=>$mensaje));
+        $newResponse->getBody()->write($payload);
+        return $newResponse
+          ->withHeader('Content-Type', 'application/json');
+    }
+
+    private static function ArmarResponseClases($response, $mensaje, $status) {
+        $newResponse = $response->withStatus($status);
+        $payload = json_encode($mensaje);
         $newResponse->getBody()->write($payload);
         return $newResponse
           ->withHeader('Content-Type', 'application/json');

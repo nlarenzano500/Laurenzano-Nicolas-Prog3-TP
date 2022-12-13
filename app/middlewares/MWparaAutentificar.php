@@ -57,8 +57,7 @@ class MWparaAutentificar {
 		}  
 
 		if($objDelaRespuesta->respuesta != "") {
-			$payload = json_encode(array("mensaje"=>$objDelaRespuesta->respuesta));
-			return MWparaAutentificar::ArmarResponse(new Response(), $payload, 401);
+			return MWparaAutentificar::ArmarResponse(new Response(), $objDelaRespuesta->respuesta, 401);
 		}
 		  
 		return $response;
@@ -116,8 +115,7 @@ class MWparaAutentificar {
 		}  
 
 		if($objDelaRespuesta->respuesta != "") {
-			$payload = json_encode(array("mensaje"=>$objDelaRespuesta->respuesta));
-			return MWparaAutentificar::ArmarResponse(new Response(), $payload, 401);
+			return MWparaAutentificar::ArmarResponse(new Response(), $objDelaRespuesta->respuesta, 401);
 		}
 		  
 		return $response;   
@@ -180,8 +178,7 @@ class MWparaAutentificar {
 		}  
 
 		if($objDelaRespuesta->respuesta != "") {
-			$payload = json_encode(array("mensaje"=>$objDelaRespuesta->respuesta));
-			return MWparaAutentificar::ArmarResponse(new Response(), $payload, 401);
+			return MWparaAutentificar::ArmarResponse(new Response(), $objDelaRespuesta->respuesta, 401);
 		}
 		  
 		return $response;   
@@ -195,13 +192,13 @@ class MWparaAutentificar {
 
 		} else {
 			// "POST", "PUT" y "DELETE" no están permitidos
-			$payload = json_encode(array("mensaje"=>"Consulta no permitida."));
-			return MWparaAutentificar::ArmarResponse(new Response(), $payload, 401);
+			return MWparaAutentificar::ArmarResponse(new Response(), "Consulta no permitida.", 401);
 		}
 	}
 
-	private static function ArmarResponse($response, $payload, $status) {
+	private static function ArmarResponse($response, $mensaje, $status) {
         $newResponse = $response->withStatus($status);
+        $payload = json_encode(array("mensaje"=>$mensaje));
         $newResponse->getBody()->write($payload);
         return $newResponse
           ->withHeader('Content-Type', 'application/json');
