@@ -92,15 +92,15 @@ $app->group('/mesas', function (RouteCollectorProxy $group) {
 $app->get('/pedidos/tiempoRestante', \PedidoController::class . ':TraerTiempo')->add(\MWparaAutentificar::class . ':VerificarUsuario_4')->add(\MWparaCORS::class . ':HabilitarCORS80');
 
 $app->group('/pedidos', function (RouteCollectorProxy $group) {
+
+    $group->get('/exportarPdf', \PedidoController::class . ':ExportarDatosPDF')->add(\MWparaAutentificar::class . ':VerificarUsuario_1');
+
     $group->get('/estado/{estado}', \PedidoController::class . ':TraerPorEstado');
     $group->get('[/]', \PedidoController::class . ':TraerTodos');
     $group->get('/{codigo}', \PedidoController::class . ':TraerUno');
-    $group->post('/foto', \PedidoController::class . ':AgregarFoto');
     $group->post('[/]', \PedidoController::class . ':CargarUno');
-    
     $group->put('/estado', \PedidoController::class . ':ModificarEstado');
     $group->put('/tiempo', \PedidoController::class . ':AgregarTiempo');
-
     $group->put('[/]', \PedidoController::class . ':ModificarUno')->add(\MWparaAutentificar::class . ':VerificarUsuario_1');
     $group->delete('[/]', \PedidoController::class . ':BorrarUno');
   })->add(\MWparaAutentificar::class . ':VerificarUsuario_3')->add(\MWparaCORS::class . ':HabilitarCORS80');

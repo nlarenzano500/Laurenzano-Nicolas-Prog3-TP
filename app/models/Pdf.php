@@ -1,5 +1,7 @@
 <?php
-require('fpdf/fpdf.php');
+require_once './models/Pdf.php';
+require_once './../vendor/fpdf.php';
+// require('fpdf/fpdf.php');
 
 
 class PDF extends FPDF {
@@ -8,7 +10,7 @@ class PDF extends FPDF {
 	function Header() {
 
 		// Add logo to page
-		$this->Image('gfg1.png',10,8,33);
+		$this->Image('recursos/logo.png',10,8,33);
 
 		// Set font family to Arial bold
 		$this->SetFont('Arial','B',20);
@@ -17,10 +19,10 @@ class PDF extends FPDF {
 		$this->Cell(80);
 
 		// Header
-		$this->Cell(50,10,'Heading',1,0,'C');
+		$this->Cell(50,10,'Pedidos',1,0,'C');
 
 		// Line break
-		$this->Ln(20);
+		$this->Ln(40);
 	}
 
 	// Page footer
@@ -33,22 +35,9 @@ class PDF extends FPDF {
 		$this->SetFont('Arial','I',8);
 
 		// Page number
-		$this->Cell(0,10,'Page ' .
+		$this->Cell(0,10,'Pagina ' .
 		$this->PageNo() . '/{nb}',0,0,'C');
 	}
 }
-
-// // Instantiation of FPDF class
-// $pdf = new PDF();
-
-// // Define alias for number of pages
-// $pdf->AliasNbPages();
-// $pdf->AddPage();
-// $pdf->SetFont('Times','',14);
-
-// for($i = 1; $i <= 30; $i++)
-// $pdf->Cell(0, 10, 'line number '
-// . $i, 0, 1);
-// $pdf->Output();
 
 ?>

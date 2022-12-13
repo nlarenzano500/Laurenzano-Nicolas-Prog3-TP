@@ -4,6 +4,7 @@ require_once './models/Producto.php';
 require_once './models/ProductoPedido.php';
 require_once './interfaces/IApiUsable.php';
 require_once './models/AutentificadorJWT.php';
+require_once './models/Pdf.php';
 
 class PedidoController implements IApiUsable {
 
@@ -343,6 +344,53 @@ class PedidoController implements IApiUsable {
         }
 
         return PedidoController::ArmarResponse($response, $mensaje, 200);
+    }
+
+    public function ExportarDatosPDF($request, $response, $args) {
+        Logger::Log($request, "exporta pedidos");
+
+        $retorno = "";
+        $listado = Pedido::obtenerTodos();
+
+        if ($listado != null) {
+
+            try {
+                date_default_timezone_set("America/Argentina/Buenos_Aires");
+                $nombreArchivo = "datos/pedidos_".date('Y-m-d_h-i').".pdf";
+
+                // Instancia de la clase FPDF
+                $pdf = new PDF();
+
+                // Define el alias para el nro de página
+                $pdf->AliasNbPages();
+                $pdf->AddPage();
+                $pdf->SetFont('Times','',14);
+
+                foreach ($listado as $pedido) {
+                    $pdf->Cell(0,10,"Codigo: ".$pedido->codigo,0,1);
+                    $pdf->Cell(0,10,"Mesa: ".$pedido->id_mesa,0,1);
+                    $pdf->Cell(0,10,"Importe: $".$pedido->importe,0,1);
+                    $pdf->Cell(0,10,"Estado: ".Pedido::NombreEstado($pedido->estado),0,1);
+                    $pdf->Cell(0,10,"Cliente: ".$pedido->cliente,0,1);
+                    $pdf->Cell(0,10,"Tiempo estimado: ".$pedido->tiempo_estimado,0,1);
+                    $pdf->Cell(0,10,"Tiempo excedido: ".($pedido->tiempo_excedido ? $pedido->tiempo_excedido : "No"),0,1);
+                    $pdf->Cell(0,10,"Creado: ".$pedido->creado,0,1);
+
+                    // Salto de línea
+                    $pdf->Ln(20);
+                }
+
+                $pdf->Output("F", $nombreArchivo);
+                $retorno = "Exportación de datos finalizada: ".$nombreArchivo;                
+            
+            } catch (Exception $e) {
+                $retorno = $e;
+            }
+        }
+
+        $response->getBody()->write(json_encode(array("mensaje" => $retorno)));
+        return $response
+          ->withHeader('Content-Type', 'application/json');
     }
 
     private static function ArmarResponse($response, $mensaje, $status) {
