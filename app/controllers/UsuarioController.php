@@ -8,7 +8,7 @@ class UsuarioController implements IApiUsable {
         // Buscamos usuario
         $usr = $datos['usuario'];
         $usuario = Usuario::obtenerUsuario($usr);
-        
+
         if ($usuario->perfil == $datos['perfil'] && password_verify($datos['clave'], $usuario->clave) )
             return true;
         else
@@ -32,7 +32,7 @@ class UsuarioController implements IApiUsable {
         $usr->clave = $clave;
         $usr->perfil = $perfil;
         $usr->nombre = $nombre;
-        $usr->sector = $usr->setSector($sector);
+        $usr->setSector($sector);
         $usr->crearUsuario();
 
         $payload = json_encode(array("mensaje" => "Usuario creado con éxito"));
@@ -85,7 +85,7 @@ class UsuarioController implements IApiUsable {
         $usr->clave = $clave;
         $usr->perfil = $perfil;
         $usr->nombre = $nombre;
-        $usr->sector = $usr->setSector($sector);
+        $usr->setSector($sector);
         $usr->fecha_baja = $fecha_baja;
 
         if ($usr->modificarUsuario($idUsuario)) {
@@ -131,6 +131,88 @@ class UsuarioController implements IApiUsable {
         }
 
         $response->getBody()->write($payload);
+        return $response
+          ->withHeader('Content-Type', 'application/json');
+    }
+
+    public function ImportarDatos($request, $response, $args) {
+        Logger::Log($request, "importa usuarios");
+
+        $listado = array();
+
+        try {
+            // Leer archivo
+            $nombreArchivo = "datos/usuarios.json";
+            $archivo = fopen($nombreArchivo, "r");
+            if ($archivo) {
+                $json = fread($archivo,filesize($nombreArchivo));
+                $listado = json_decode($json);
+
+            } else {
+                throw new Exception("Ha ocurrido un error al intentar recuperar los datos del archivo.", 1);
+            }
+
+        } catch (Exception $e) {
+            $listado = null;
+        } finally {
+            if ($archivo)
+                fclose($archivo);
+        }
+
+        // Obtenemos datos del usuario a partir de los datos del token
+        $token = AutentificadorJWT::ObtenerToken($request);
+        $payload = AutentificadorJWT::ObtenerData($token);
+
+        // Elimina usuarios existentes, salvo el que realiza la acción -- CUIDADO CON ESTO --
+        Usuario::BorrarTodosMenosYo($payload->usuario);
+
+        foreach ($listado as $usuario) {
+
+            if ($usuario->usuario != $payload->usuario) {
+                // Creamos el usuario
+                $usr = new Usuario();
+                $usr->usuario = $usuario->usuario;
+                $usr->clave = $usuario->clave;
+                $usr->perfil = $usuario->perfil;
+                $usr->nombre = $usuario->nombre;
+                $usr->setSector($usuario->sector);
+                $usr->crearUsuario();
+            }
+         } 
+        
+        $response->getBody()->write(json_encode(array("mensaje" => "Importación de datos finalizada.")));
+        return $response
+          ->withHeader('Content-Type', 'application/json');
+    }
+
+    public function ExportarDatos($request, $response, $args) {
+        Logger::Log($request, "exporta usuarios");
+
+        $retorno = "";
+
+        $listado = Usuario::obtenerTodos();
+
+        if ($listado != null) {
+
+            try {
+                $nombreArchivo = "datos/usuarios_".date('Y-m-d_h-i').".json";
+                $archivo = fopen($nombreArchivo, "w");
+                if ($archivo) {
+                    $alta = json_encode($listado);
+                    fwrite($archivo, $alta);
+                    $retorno = "Exportación de datos finalizada: ".$nombreArchivo;
+                }
+            
+            } catch (Exception $e) {
+                $retorno = $e;
+                
+            } finally {
+                if ($archivo)
+                    fclose($archivo);
+            }
+        }
+
+        $response->getBody()->write(json_encode(array("mensaje" => $retorno)));
         return $response
           ->withHeader('Content-Type', 'application/json');
     }

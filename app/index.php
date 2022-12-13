@@ -64,11 +64,14 @@ $app->post('/usuarios/login', function (Request $request, Response $response) {
 $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->get('[/]', \UsuarioController::class . ':TraerTodos');
     $group->get('/{usuario}', \UsuarioController::class . ':TraerUno');
+    $group->post('/importar', \UsuarioController::class . ':ImportarDatos');
+    $group->post('/exportar', \UsuarioController::class . ':ExportarDatos');
     $group->post('[/]', \UsuarioController::class . ':CargarUno');
     $group->put('[/]', \UsuarioController::class . ':ModificarUno');
     $group->put('/suspender', \UsuarioController::class . ':SuspenderUno');
     $group->delete('[/]', \UsuarioController::class . ':BorrarUno');
   })->add(\MWparaAutentificar::class . ':VerificarUsuario_1')->add(\MWparaCORS::class . ':HabilitarCORS80');
+  // })->add(\MWparaCORS::class . ':HabilitarCORS80');
 
 $app->group('/productos', function (RouteCollectorProxy $group) {
     $group->get('[/]', \ProductoController::class . ':TraerTodos');
@@ -102,7 +105,6 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->delete('[/]', \PedidoController::class . ':BorrarUno');
   })->add(\MWparaAutentificar::class . ':VerificarUsuario_3')->add(\MWparaCORS::class . ':HabilitarCORS80');
 
-
 $app->group('/encuesta', function (RouteCollectorProxy $group) {
     $group->get('[/]', \EncuestaController::class . ':TraerTodos');
     $group->get('/{id_pedido}', \EncuestaController::class . ':TraerUno');
@@ -111,15 +113,9 @@ $app->group('/encuesta', function (RouteCollectorProxy $group) {
     $group->delete('[/]', \EncuestaController::class . ':BorrarUno');
   })->add(\MWparaAutentificar::class . ':VerificarUsuario_5')->add(\MWparaCORS::class . ':HabilitarCORS80');
 
-
-
-
-
-
 $app->get('[/]', function (Request $request, Response $response) {    
     $response->getBody()->write("TP Laurenzano");
     return $response;
-
 });
 
 $app->run();

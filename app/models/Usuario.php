@@ -12,9 +12,9 @@ class Usuario {
     public function setSector($sector) {
         // Estos perfiles no pertenecen a un sector específico
         if ($this->perfil == "admin" || $this->perfil == "socio" || $this->perfil == "mozo")
-            return null;
+            $this->sector = null;
 
-        return $sector;
+        $this->sector = $sector;
     }
 
     public function crearUsuario() {
@@ -34,12 +34,12 @@ class Usuario {
 
     public static function obtenerTodos() {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT id, usuario, clave, perfil, nombre, sector FROM usuarios");
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT id, usuario, perfil, nombre, sector FROM usuarios");
         $consulta->execute();
 
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Usuario');
     }
-
+    
     public static function obtenerUsuario($usuario) {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("SELECT id, usuario, clave, perfil, nombre, sector FROM usuarios WHERE usuario = :usuario");
@@ -84,5 +84,17 @@ class Usuario {
         $consulta->execute();
         return $consulta->rowCount();
     }
-    
+
+    public static function BorrarTodosMenosYo($usuario) {
+        // ALERTA:  Cuidado al llamar a esta función.
+        //          Solo se debe usar antes de importar desde un archivo y teniendo un backup
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("DELETE FROM usuarios WHERE usuario != :usuario");
+        $consulta->bindValue(':usuario', $usuario, PDO::PARAM_STR);
+
+
+
+        $consulta->execute();
+        return $consulta->rowCount();
+    }
 }

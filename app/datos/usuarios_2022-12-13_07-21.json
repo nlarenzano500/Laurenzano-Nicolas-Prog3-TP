@@ -1,0 +1,110 @@
+[
+    {
+        "id": 23,
+        "usuario": "admin",
+        "clave": null,
+        "perfil": "admin",
+        "nombre": "Administrador",
+        "sector": null,
+        "fecha_baja": null
+    },
+    {
+        "id": 67,
+        "usuario": "user02",
+        "clave": null,
+        "perfil": "socio",
+        "nombre": "Pedro Socio",
+        "sector": null,
+        "fecha_baja": null
+    },
+    {
+        "id": 68,
+        "usuario": "user03",
+        "clave": null,
+        "perfil": "socio",
+        "nombre": "Pancho Socio",
+        "sector": null,
+        "fecha_baja": null
+    },
+    {
+        "id": 69,
+        "usuario": "user05",
+        "clave": null,
+        "perfil": "socio",
+        "nombre": "Julio Socio",
+        "sector": null,
+        "fecha_baja": null
+    },
+    {
+        "id": 70,
+        "usuario": "mozo 01",
+        "clave": null,
+        "perfil": "mozo",
+        "nombre": "Pepe Mozo",
+        "sector": null,
+        "fecha_baja": null
+    },
+    {
+        "id": 71,
+        "usuario": "bar01",
+        "clave": null,
+        "perfil": "bartender",
+        "nombre": "Bartender 01",
+        "sector": "barra_vino",
+        "fecha_baja": null
+    },
+    {
+        "id": 72,
+        "usuario": "cerve01",
+        "clave": null,
+        "perfil": "cervecero",
+        "nombre": "Cervecero 01",
+        "sector": "barra_cerveza",
+        "fecha_baja": null
+    },
+    {
+        "id": 73,
+        "usuario": "coci01",
+        "clave": null,
+        "perfil": "cocinero",
+        "nombre": "Cocinero 01",
+        "sector": "cocina",
+        "fecha_baja": null
+    },
+    {
+        "id": 74,
+        "usuario": "coci02",
+        "clave": null,
+        "perfil": "cocinero",
+        "nombre": "Cocinero 02",
+        "sector": "postres",
+        "fecha_baja": null
+    },
+    {
+        "id": 75,
+        "usuario": "mozo02",
+        "clave": null,
+        "perfil": "mozo",
+        "nombre": "Mozo 02",
+        "sector": null,
+        "fecha_baja": null
+    },
+    {
+        "id": 76,
+        "usuario": "mozo05",
+        "clave": null,
+        "perfil": "mozo",
+        "nombre": "Mozo 05",
+        "sector": null,
+        "fecha_baja": null
+    },
+    {
+        "id": 77,
+        "usuario": "mozo13",
+        "clave": null,
+        "perfil": "mozo",
+        "nombre": "Mozo 13",
+        "sector": null,
+        "fecha_baja": null
+    }
+]
