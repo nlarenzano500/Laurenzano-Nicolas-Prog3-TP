@@ -61,6 +61,13 @@ $app->post('/usuarios/login', function (Request $request, Response $response) {
         return $newResponse;
     })->add(\MWparaCORS::class . ':HabilitarCORS80');
 
+$app->group('/operaciones', function (RouteCollectorProxy $group) {
+
+    $group->get('/reporte', \Logger::class . ':TraerReporte');
+
+
+  })->add(\MWparaAutentificar::class . ':VerificarUsuario_1')->add(\MWparaCORS::class . ':HabilitarCORS80');
+
 $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->get('[/]', \UsuarioController::class . ':TraerTodos');
     $group->get('/{usuario}', \UsuarioController::class . ':TraerUno');
@@ -71,7 +78,6 @@ $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->put('/suspender', \UsuarioController::class . ':SuspenderUno');
     $group->delete('[/]', \UsuarioController::class . ':BorrarUno');
   })->add(\MWparaAutentificar::class . ':VerificarUsuario_1')->add(\MWparaCORS::class . ':HabilitarCORS80');
-  // })->add(\MWparaCORS::class . ':HabilitarCORS80');
 
 $app->group('/productos', function (RouteCollectorProxy $group) {
     $group->get('[/]', \ProductoController::class . ':TraerTodos');
@@ -92,9 +98,7 @@ $app->group('/mesas', function (RouteCollectorProxy $group) {
 $app->get('/pedidos/tiempoRestante', \PedidoController::class . ':TraerTiempo')->add(\MWparaAutentificar::class . ':VerificarUsuario_4')->add(\MWparaCORS::class . ':HabilitarCORS80');
 
 $app->group('/pedidos', function (RouteCollectorProxy $group) {
-
     $group->get('/exportarPdf', \PedidoController::class . ':ExportarDatosPDF')->add(\MWparaAutentificar::class . ':VerificarUsuario_1');
-
     $group->get('/estado/{estado}', \PedidoController::class . ':TraerPorEstado');
     $group->get('[/]', \PedidoController::class . ':TraerTodos');
     $group->get('/{codigo}', \PedidoController::class . ':TraerUno');

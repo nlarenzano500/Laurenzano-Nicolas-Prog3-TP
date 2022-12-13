@@ -20,47 +20,32 @@ class Operacion {
         }
     }
 
-    public static function obtenerTodos()
-    {
+    public static function obtenerLogin() {
+
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT id_pedido, id_mesa, puntaje_mesa, puntaje_restaurante, puntaje_mozo, puntaje_cocinero, texto FROM encuestas");
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT usuario, tipo, fecha FROM operaciones WHERE tipo = :tipo");
+        $consulta->bindValue(':tipo', "login", PDO::PARAM_STR);
         $consulta->execute();
 
-        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Encuesta');
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Operacion');
     }
+    
+    public static function obtenerPorSector($sector) {
 
-    public static function obtenerEncuesta($id_pedido)
-    {
-        $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT id_mesa, puntaje_mesa, puntaje_restaurante, puntaje_mozo, puntaje_cocinero, texto FROM encuestas WHERE id_pedido = :id_pedido");
-        $consulta->bindValue(':id_pedido', $id_pedido, PDO::PARAM_STR);
-        $consulta->execute();
-
-        return $consulta->fetchObject('Encuesta');
-    }
-
-    public function modificarEncuesta()
-    {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
 
-        $consulta = $objAccesoDatos->prepararConsulta("UPDATE encuestas SET id_mesa = :id_mesa, puntaje_mesa = :puntaje_mesa, puntaje_restaurante = :puntaje_restaurante, puntaje_mozo = :puntaje_mozo, puntaje_cocinero = :puntaje_cocinero, texto = :texto WHERE id_pedido = :id_pedido");
-        $consulta->bindValue(':id_mesa', $this->id_mesa, PDO::PARAM_STR);
-        $consulta->bindValue(':puntaje_mesa', $this->puntaje_mesa, PDO::PARAM_INT);
-        $consulta->bindValue(':puntaje_restaurante', $this->puntaje_restaurante, PDO::PARAM_INT);
-        $consulta->bindValue(':puntaje_mozo', $this->puntaje_mozo, PDO::PARAM_INT);
-        $consulta->bindValue(':puntaje_cocinero', $this->puntaje_cocinero, PDO::PARAM_INT);
-        $consulta->bindValue(':texto', $this->texto, PDO::PARAM_STR);
-        $consulta->bindValue(':id_pedido', $this->id_pedido, PDO::PARAM_STR);
+        if ($sector == null) {
+            $consulta = $objAccesoDatos->prepararConsulta("SELECT op.usuario, op.tipo, op.fecha FROM operaciones op INNER JOIN usuarios u ON op.usuario = u.usuario WHERE u.sector is NULL");
+        } else {
+            $consulta = $objAccesoDatos->prepararConsulta("SELECT op.usuario, op.tipo, op.fecha FROM operaciones op INNER JOIN usuarios u ON op.usuario = u.usuario WHERE u.sector = :sector");
+            $consulta->bindValue(':sector', $sector, PDO::PARAM_STR);
+        }
+
         $consulta->execute();
-        return $consulta->rowCount();
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Operacion');
     }
 
-    public static function borrarEncuesta($id_pedido)
-    {
-        $objAccesoDato = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDato->prepararConsulta("DELETE FROM encuestas WHERE id_pedido = :id_pedido");
-        $consulta->bindValue(':id_pedido', $id_pedido, PDO::PARAM_STR);
-        $consulta->execute();
-        return $consulta->rowCount();
-    }
+
+
+
 }

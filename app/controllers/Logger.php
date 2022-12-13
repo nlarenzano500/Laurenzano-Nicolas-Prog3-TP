@@ -43,7 +43,49 @@ class Logger {
 
 
 
+    public function TraerReporte($request, $response, $args) {
+        Logger::Log($request, "consulta operaciones");
 
+        // Tipo de reporte
+        $parametros = $request->getParsedBody();
+        $tipo = $parametros['tipo'];
+        $resultado = null;
+
+        switch ($tipo) {
+
+            case 'login':
+                $resultado = Operacion::obtenerLogin();
+                break;
+
+            case 'sector':
+                $sector = $parametros['sector'];
+                $resultado = Operacion::obtenerPorSector($sector);
+                break;
+            
+            case 'sector_emp':
+                
+                break;
+            
+            case 'empleado':
+                
+                break;
+
+
+
+            default:
+                $resultado = null;
+                break;
+        }
+
+        if ($resultado)
+            $payload = json_encode($resultado);
+        else
+            $payload = json_encode(array("mensaje" => "No hay resultados."));
+
+        $response->getBody()->write($payload);
+        return $response
+          ->withHeader('Content-Type', 'application/json');
+    }
 
 
 
