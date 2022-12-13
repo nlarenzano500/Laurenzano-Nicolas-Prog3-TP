@@ -83,7 +83,7 @@ $app->group('/mesas', function (RouteCollectorProxy $group) {
     $group->delete('[/]', \MesaController::class . ':BorrarUno');
   })->add(\MWparaAutentificar::class . ':VerificarUsuario_2')->add(\MWparaCORS::class . ':HabilitarCORS80');
 
-// $app->get('/pedidos/tiempoRestante', \PedidoController::class . ':TraerTiempo')->add(\MWparaAutentificar::class . ':VerificarUsuario_4')->add(\MWparaCORS::class . ':HabilitarCORS80');
+$app->get('/pedidos/tiempoRestante', \PedidoController::class . ':TraerTiempo')->add(\MWparaAutentificar::class . ':VerificarUsuario_4')->add(\MWparaCORS::class . ':HabilitarCORS80');
 
 $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->get('/estado/{estado}', \PedidoController::class . ':TraerPorEstado');

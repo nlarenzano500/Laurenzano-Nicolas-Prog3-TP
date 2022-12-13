@@ -187,6 +187,19 @@ class MWparaAutentificar {
 		return $response;   
 	}
 
+	// "GET" es el único método permitido
+	public function VerificarUsuario_4($request, $handler) {
+
+		if($request->getMethod() == "GET") {
+			return $handler->handle($request);
+
+		} else {
+			// "POST", "PUT" y "DELETE" no están permitidos
+			$payload = json_encode(array("mensaje"=>"Consulta no permitida."));
+			return MWparaAutentificar::ArmarResponse(new Response(), $payload, 401);
+		}
+	}
+
 	private static function ArmarResponse($response, $payload, $status) {
         $newResponse = $response->withStatus($status);
         $newResponse->getBody()->write($payload);

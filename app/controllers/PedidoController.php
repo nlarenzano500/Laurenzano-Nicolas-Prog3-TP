@@ -290,13 +290,36 @@ class PedidoController implements IApiUsable {
         return PedidoController::ArmarResponse($response, $payload, 200);
     }
 
-
-
-
-
-
     public function TraerTiempo($request, $response, $args) {
+        // Buscamos pedido por código
+        $parametros = $request->getQueryParams();
+        $codigo = $parametros['pedido'];
+        $pedido = Pedido::obtenerPedido($codigo);
 
+        // Verificamos que la mesa indicada sea correcta
+        $id_mesa = $parametros['mesa'];
+        if ($pedido->id_mesa == $id_mesa) {
+            date_default_timezone_set("America/Argentina/Buenos_Aires");
+
+            $horario_estimado = date_create();
+            date_timestamp_set($horario_estimado, strtotime($pedido->creado));
+            date_add($horario_estimado,date_interval_create_from_date_string($pedido->tiempo_estimado." minutes"));
+            $hora_actual = date_create();
+
+            if ($horario_estimado < $hora_actual) {
+                // Tiempo excedido
+                $payload = json_encode(array("mensaje" => "Tiempo de espera excedido."));
+
+            } else {
+                $diferencia = date_diff($horario_estimado,$hora_actual);
+                $payload = json_encode(array("mensaje" => "Tiempo de espera restante: " . $diferencia->format("%H:%i")));
+            }
+        } else {
+            $payload = json_encode(array("mensaje" => "El código de mesa ingresado no corresponde al pedido."));
+            return PedidoController::ArmarResponse($response, $payload, 401);
+        }
+
+        return PedidoController::ArmarResponse($response, $payload, 200);
     }
 
     private static function ArmarResponse($response, $payload, $status) {
