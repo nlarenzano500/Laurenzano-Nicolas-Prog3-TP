@@ -22,7 +22,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"usuario\": \"mozo 01\",\n    \"clave\": \"1234\",\n    \"perfil\": \"mozo\"\n}"
+							"raw": "{\n    \"usuario\": \"mozo01\",\n    \"clave\": \"1234\",\n    \"perfil\": \"mozo\"\n}"
 						},
 						"url": {
 							"raw": "{{url_WS}}/app/usuarios/login",
@@ -557,7 +557,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"descripcion\": \"milanesa a caballo\",\n    \"precio\": 1200,\n    \"sector\": \"cocina\"\n}",
+							"raw": "{\n    \"descripcion\": \"daikiri\",\n    \"precio\": 600,\n    \"sector\": \"barra_vino\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1213,6 +1213,70 @@
 								{
 									"key": "productos",
 									"value": "[{\"id\":4,\"cantidad\":3},{\"id\":5,\"cantidad\":2}]",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url_WS}}/app/pedidos",
+							"host": [
+								"{{url_WS}}"
+							],
+							"path": [
+								"app",
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear 1- Mozo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_mozo}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "codigo",
+									"value": "P0007",
+									"type": "text"
+								},
+								{
+									"key": "id_mesa",
+									"value": "M0010",
+									"type": "text"
+								},
+								{
+									"key": "cliente",
+									"value": "Cliente 07",
+									"type": "text"
+								},
+								{
+									"key": "foto",
+									"type": "file",
+									"src": "/home/nlaurenzano/Imágenes/Mesa y clientes.jpg"
+								},
+								{
+									"key": "productos",
+									"value": "[{\"id\":5,\"cantidad\":1},{\"id\":7,\"cantidad\":2},{\"id\":8,\"cantidad\":1},{\"id\":9,\"cantidad\":1}]",
 									"type": "text"
 								}
 							]
@@ -1890,7 +1954,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"codigo\":\"P0006\"\n}",
+							"raw": "{\n    \"codigo\":\"P0007\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
